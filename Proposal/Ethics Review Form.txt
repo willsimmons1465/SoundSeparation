@@ -1,0 +1,7 @@
+Title of the research project: Techniques for Separation of Harmonic Sound Sources
+
+Type of study: controlled experiments for technology evaluation
+
+Brief description: Within the project, two systems will be developed for sound separation and run on a set of audio files of overlapping musical instrument sounds. In order for the solutions to be deemed practical, they must preserve a reasonable quality for the individual sounds, in particular that the instrument is still identifiable. For this purpose, a collection of subjects aged below 25 will be surveyed to give descriptions of the reconstructed sounds to judge whether or not the instrument could be identified and the level of distortion introduced by the process, compared to the original sounds.
+
+Precautions taken: The individual sounds selected for the training set will not be of a distressing nature. The volume at which the audio will be delivered to the subjects will be chosen to be sufficiently audible for the quality of the sound to be judged, but within the EU recommended safe listening range of 85dB(A) (as stated in the EN 50332 standard).

@@ -1,0 +1,32 @@
+Subject: Phase 1 - Simmons: Techniques for Separation of Harmonic Sound Sources
+
+Phase 1 Project Selection Status Report
+
+Name:                                                            William Simmons
+
+College:                                                         St. Catharine's College
+
+User Identifier:                                                 wvs22
+
+Director of Studies:                                             Dr S. N. Taraskin
+
+Please complete 1, 2 and 3 below.
+
+1. Please write 100 words on your current project ideas.
+
+I am intending on investigating the recovery of individual sound sources from a mixed audio input under the assumption that the sources are harmonic and with knowledge of the number of sources but not their waveforms, offset, pitch, stereo position or other details of the original sounds. I will be focussing on sinusoidal modelling techniques and comparing it to another algorithm or comparing the effects of different distance functions for the trajectories, considering how they handle when the sources are dissonant or harmonising with each other, at a range of relative offsets in time and in the presence of some additional random noise. These will be evaluated using a collection of numeric techniques and some human testing to judge the perceivable difference between the original and reconstructed sounds.
+
+2. Please list names of potential project supervisors.
+
+Dr D. J. Greaves
+
+3. Is there any chance that your project will involve any
+computing resources other than the Computing Service's MCS and
+software that is already installed there, for example: your own
+machine, machines in College, special peripherals, imported
+software packages, special hardware, network access, substantial
+extra disc space on the MCS.
+
+If so indicate below what, and what it is needed for.
+
+No special resources will be required. I intend on using my own PC (Windows 10 Home, Intel Core i7-3537U, 8.0GB RAM). I accept full responsibility for this machine and I have made contingency plans to protect myself against hardware and/or software failure. In the event of hardware damage to my PC, the MCS PCs shall suffice.
