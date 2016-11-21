@@ -1,6 +1,7 @@
-THRESHOLD = 1;
-WINDOWMILLIS = 100;
-MINFREQ = 100;
+THRESHOLD = 1000;
+%THRESHOLD = 1;
+WINDOWMILLIS = 1000;
+%MINFREQ = 100; Not actually a constant
 WF = 1;
 WA = 1;
 WH = 20;
@@ -8,8 +9,8 @@ MAXSINS = 100;
 NUMSOURCES = 2;
 TRAJECTORYDELTAFMAX = 0.1;
 
-%[samples, framerate] = audioread('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Sound Samples\Square Intervals\3st.wav');
-[samples, framerate] = audioread('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Sound Samples\Trumpet Violin\TA3_Vfs4.wav');
+[samples, framerate] = audioread('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Sound Samples\Square Intervals\3st.wav');
+%[samples, framerate] = audioread('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Sound Samples\Trumpet Violin\TA3_Vfs4.wav');
 
 monoChannel = samples(:,1);
 
@@ -75,6 +76,7 @@ for i = 1:spectrumSize(2)
     normFreqs(:,i) = sinFreqs(:,i) ./ meanFreqs;
 end
 
+MinFreq = min(meanFreqs);
 
 df = zeros(numSins, numSins);
 da = zeros(numSins, numSins);
@@ -85,9 +87,9 @@ for i = 1:numSins
         df(i,j) = sum((normFreqs(i,:) - normFreqs(j,:)).^2);
         da(i,j) = sum((normAmps(i,:) - normAmps(j,:)).^2);
         
-        for a = 1:floor(meanFreqs(i)/MINFREQ)
-            for b = 1:floor(meanFreqs(j)/MINFREQ)
-                dhab = abs(log(meanFreqs(i)/meanFreqs(j) * b/a));
+        for a = 1:floor(meanFreqs(i)*(1+TRAJECTORYDELTAFMAX)/MinFreq)
+            for b = 1:floor(meanFreqs(j)*(1+TRAJECTORYDELTAFMAX)/MinFreq)
+                dhab = abs(log((meanFreqs(i)*b)/(meanFreqs(j)*a)));
                 if dhab < dh(i,j)
                     dh(i,j) = dhab;
                 end
@@ -98,28 +100,30 @@ end
 
 d = WF*df + WA*da + WH*dh;
 
-minSplit = zeros(numSins);
-minD = Inf(1);
-for i = 1:NUMSOURCES^numSins
-    for j = 0:numSins-1
-        membershipVector(j+1) = mod(floor(i/NUMSOURCES^j), NUMSOURCES);
-    end
-    %membershipVector = de2bi(i, [], NUMSOURCES);
-    subsetDs = zeros(numSins, numSins);
-    
-    for j = 0:NUMSOURCES-1
-        %subsetDsIncr = d;
-        %subsetDsIncr(membershipVector ~= j, :) = 0;
-        mask = find(membershipVector == j);
-        subsetDs(mask, mask) = d(mask, mask);
-    end
-    
-    dSum = sum(subsetDs(:));
-    if (dSum < minD)
-        minSplit = membershipVector;
-        minD = dSum;
-    end
-end
+%Identify Clusters
+% minSplit = zeros(numSins,1);
+% minD = Inf(1);
+% for i = 1:NUMSOURCES^numSins
+%     for j = 0:numSins-1
+%         membershipVector(j+1) = mod(floor(i/NUMSOURCES^j), NUMSOURCES);
+%     end
+%     %membershipVector = de2bi(i, [], NUMSOURCES);
+%     subsetDs = zeros(numSins, numSins);
+%     
+%     for j = 0:NUMSOURCES-1
+%         %subsetDsIncr = d;
+%         %subsetDsIncr(membershipVector ~= j, :) = 0;
+%         mask = find(membershipVector == j);
+%         subsetDs(mask, mask) = d(mask, mask);
+%     end
+%     
+%     dSum = sum(subsetDs(:));
+%     if (dSum < minD)
+%         minSplit = membershipVector;
+%         minD = dSum;
+%     end
+% end
+minSplit = HierClusterN(d, NUMSOURCES);
 
 %Synthesis
 amps = zeros(numSins, sampleLength(1));
@@ -151,8 +155,8 @@ end
 
 peakAmps = max(outputSamples);
 scaledOutputSamples = outputSamples / max(peakAmps);
-%audiowrite('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Output Sounds SMProto\Square Intervals\3st0.wav', scaledOutputSamples(1, :), framerate);
-%audiowrite('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Output Sounds SMProto\Square Intervals\3st1.wav', scaledOutputSamples(2, :), framerate);
+audiowrite('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Output Sounds SMProto\Square Intervals\3st0.wav', scaledOutputSamples(1, :), framerate);
+audiowrite('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Output Sounds SMProto\Square Intervals\3st1.wav', scaledOutputSamples(2, :), framerate);
 
-audiowrite('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Output Sounds SMProto\Trumpet Violin\TA3_VFs4_0.wav', scaledOutputSamples(1, :), framerate);
-audiowrite('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Output Sounds SMProto\Trumpet Violin\TA3_VFs4_1.wav', scaledOutputSamples(2, :), framerate);
+%audiowrite('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Output Sounds SMProto\Trumpet Violin\TA3_VFs4_0.wav', scaledOutputSamples(1, :), framerate);
+%audiowrite('C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Output Sounds SMProto\Trumpet Violin\TA3_VFs4_1.wav', scaledOutputSamples(2, :), framerate);
