@@ -28,6 +28,8 @@ end
 
 %Perform merge on matrix
 DMod = D;
+%DMod(PairToMerge(1),:) = min(D(PairToMerge(1),:), D(PairToMerge(2),:));
+%DMod(:,PairToMerge(1)) = min(D(:,PairToMerge(1)), D(:,PairToMerge(2)));
 DMod(PairToMerge(1),:) = 0.5*(D(PairToMerge(1),:) + D(PairToMerge(2),:));
 DMod(:,PairToMerge(1)) = 0.5*(D(:,PairToMerge(1)) + D(:,PairToMerge(2)));
 DReduced = DMod([1:PairToMerge(2)-1, PairToMerge(2)+1:end],[1:PairToMerge(2)-1, PairToMerge(2)+1:end]);
