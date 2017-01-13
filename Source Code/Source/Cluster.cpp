@@ -1,6 +1,8 @@
 #include "Cluster.h"
 //#include <cstdlib>
 
+//Helper method for kClusterLloyd
+//Returns square of Euclidean distance between vectors.
 double distance(vector<double>* vector0, vector<double>* vector1)
 {
 	double sum = 0.;
@@ -13,11 +15,13 @@ double distance(vector<double>* vector0, vector<double>* vector1)
 
 vector<int>* Cluster::kClusterLloyd(vector<vector<double>>* featureVectors, int k)
 {
-	vector<double> mins = vector<double>();
-	vector<double> maxs = vector<double>();
+	//Get parameters
 	long vectorCount = featureVectors->size();
 	long featureCount = (*featureVectors)[0].size();
 
+	//Identify ranges of values for each feature
+	/*vector<double> mins = vector<double>();
+	vector<double> maxs = vector<double>();
 	for(long f=0; f<featureCount; f++)
 	{
 		mins.push_back((*featureVectors)[0][f]);
@@ -37,8 +41,9 @@ vector<int>* Cluster::kClusterLloyd(vector<vector<double>>* featureVectors, int 
 				maxs[f] = val;
 			}
 		}
-	}
+	}*/
 
+	//Select random points as initial centres
 	vector<vector<double>> centres = vector<vector<double>>();
 	for(int c=0; c<k; c++)
 	{
@@ -46,10 +51,12 @@ vector<int>* Cluster::kClusterLloyd(vector<vector<double>>* featureVectors, int 
 		centres.push_back(vector<double>((*featureVectors)[centreChoice]));
 	}
 
+	//Improve centres
 	vector<int>* clusterTags = new vector<int>(vectorCount);
 	long tagsChanged = lloydConvergeLimit + 1;
 	while (tagsChanged > lloydConvergeLimit)
 	{
+		//Cluster points to nearest centre
 		tagsChanged = 0;
 		for(long v=0; v<vectorCount; v++)
 		{
@@ -71,6 +78,7 @@ vector<int>* Cluster::kClusterLloyd(vector<vector<double>>* featureVectors, int 
 			}
 		}
 		
+		//Recalculate the centres given their clusters
 		for(int c=0; c<k; c++)
 		{
 			long clusterSize = 0;

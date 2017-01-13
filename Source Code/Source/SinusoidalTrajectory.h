@@ -22,9 +22,46 @@ public:
 	long endIndex;
 	double meanFreq;
 	SinusoidalTrajectory(long start, SinusoidalTrajectoryPoint firstPoint) : startIndex(start), endIndex(start), data() {data.push_back(firstPoint);}
+	
+	/**
+	* SinusoidalTrajectory::addPoint(SinusoidalTrajectoryPoint)
+	*
+	* Adds a new point to the end of the trajectory.
+	* Assumes each call to this method should be made for the time frame immediately
+	* following the previous call, so all points are consecutive in time and once it
+	* has ended, no more points are added.
+	*/
 	inline void addPoint(SinusoidalTrajectoryPoint point){data.push_back(point); endIndex++;}
+	
+	/**
+	* SinusoidalTrajectory::canAccept(SinusoidalTrajectoryPoint)
+	* 
+	* Returns true iff point could be added to the end of the trajectory without
+	* a significant jump in frequency. trajectoryDeltaFmax is the maximum percentage
+	* change in frequency between adjacent time frames.
+	*/
 	bool canAccept(SinusoidalTrajectoryPoint point);
-	void normalise();
+
+	/**
+	* SinusoidalTrajectory::normalise()
+	*
+	* Normalises the amp and freq values of the points on the trajectory to have
+	* means of 1. Does not affect the stereo position or trueFreq fields, so original
+	* frequency can be read from trueFreq.
+	* This should be called exactly once after all points have been added to the trajectory,
+	* otherwise the meanFreq field may not be correct.
+	*/
+	void normalise(void);
+
+	/**
+	* SinusoidalTrajectory::distance(SinusoidalTrajectory, SinusoidalTrajectory)
+	*
+	* Determines the "distance" between two trajectories based on Euclidean distance
+	* between the amplitude, frequency and stereo vectors over the overlapping time period.
+	* A measure of harmonic distance is added according to Virtanen's equation.
+	* A penalty figure is added instead of amplitude, frequency and stereo distance if
+	* trajectories do not overlap in time.
+	*/
 	static double distance(SinusoidalTrajectory sin0, SinusoidalTrajectory sin1, double minFreq);
 
 };

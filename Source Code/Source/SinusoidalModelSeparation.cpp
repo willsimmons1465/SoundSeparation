@@ -110,7 +110,7 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 	//--Calculate threshold to eliminate noise
 	const double threshold = minRowMax * 2000000.;
 
-	//Threshold power spectrum
+	//--Threshold power spectrum
 	for(long t=0; t<tCount; t++)
 	{
 		for(long f=0; f<fCount; f++)
@@ -128,15 +128,17 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 	vector<SinusoidalTrajectory> sins = vector<SinusoidalTrajectory>();
 	for(long t=0; t<tCount; t++)
 	{
+		//Find local peak frequencies for current time frame
 		vector<double>* peakPos = peakPositions(&(absSpec[t]));
-		vector<SinusoidalTrajectoryPoint> newPoints = vector<SinusoidalTrajectoryPoint>();
 		for(long i=0; i<peakPos->size(); i++)
 		{
+			//Create a trajectory point for each peak
 			double p = (*peakPos)[i];
 			SinusoidalTrajectoryPoint point(approxPowerAroundPosition(&(absSpec[t]),p),
 				p,
 				stereoScaleAroundPosition(&((*lSpectrum)[t]), &((*rSpectrum)[t]), p));
-			newPoints.push_back(point);
+			
+			//Extend an existing trajectory if possible
 			bool newSin = true;
 			for(long i=0; i<sins.size(); i++)
 			{
@@ -144,8 +146,11 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 				{
 					sins[i].addPoint(point);
 					newSin = false;
+					break;
 				}
 			}
+
+			//If no trajectory could be extended, create a new one
 			if(newSin)
 			{
 				sins.push_back(SinusoidalTrajectory(t,point));
@@ -176,10 +181,14 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 	for(long i=0; i<numOfSins; i++)
 	{
 		vector<double> di = vector<double>();
+
+		//Distance matrix should be symmetric, so copy previously-calculated cells
 		for(long j=0; j<i; j++)
 		{
 			di.push_back(d[j][i]);
 		}
+
+		//Calculate the new distances
 		for(long j=i; j<numOfSins; j++)
 		{
 			di.push_back(SinusoidalTrajectory::distance(sins[i], sins[j], minFreq));
@@ -198,6 +207,7 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 	vector<vector<vector<double>>>* retVal = new vector<vector<vector<double>>>();
 	for(int s=0; s<numOfSources; s++)
 	{
+		//Initialise spectra as zero-matrices
 		vector<vector<complex<double>>> lSoundSpec = vector<vector<complex<double>>>();
 		vector<vector<complex<double>>> rSoundSpec = vector<vector<complex<double>>>();
 		for(long t=0; t<tCount; t++)
@@ -205,6 +215,8 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 			lSoundSpec.push_back(vector<complex<double>>(fCount));
 			rSoundSpec.push_back(vector<complex<double>>(fCount));
 		}
+
+		//Add peaks from trajectories in the current cluster
 		for(long i=0; i<numOfSins; i++)
 		{
 			if((*clusterTags)[i] != s)
@@ -220,6 +232,8 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 				rSoundSpec[t][freq+1] = (*rSpectrum)[t][freq+1];
 			}
 		}
+
+		//Calculate the samples from the spectra
 		vector<double>* lSamples = Transform::istft(&lSoundSpec, hopSize);
 		vector<double>* rSamples = Transform::istft(&rSoundSpec, hopSize);
 		retVal->push_back(vector<vector<double>>());

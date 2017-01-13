@@ -13,8 +13,9 @@ bool SinusoidalTrajectory::canAccept(SinusoidalTrajectoryPoint point)
 	return abs(log(point.freq/lastPoint.freq)) < log(1+trajectoryDeltaFmax);
 }
 
-void SinusoidalTrajectory::normalise()
+void SinusoidalTrajectory::normalise(void)
 {
+	//Calculate mean amp and freq
 	double sumAmp = 0.;
 	double sumFreq = 0.;
 	for(long i=0; i<data.size(); i++)
@@ -24,6 +25,8 @@ void SinusoidalTrajectory::normalise()
 	}
 	const double meanAmp = sumAmp/data.size();
 	meanFreq = sumFreq/data.size();
+
+	//Scale all points
 	for(long i=0; i<data.size(); i++)
 	{
 		data[i].amp /= meanAmp;
@@ -38,6 +41,8 @@ double SinusoidalTrajectory::distance(SinusoidalTrajectory sin0, SinusoidalTraje
 	double da = 0.;
 	double ds = 0.;
 	bool overlap = true;
+
+	//Identify overlapping region
 	long t0;
 	if(sin0.startIndex < sin1.startIndex)
 	{
@@ -47,7 +52,6 @@ double SinusoidalTrajectory::distance(SinusoidalTrajectory sin0, SinusoidalTraje
 	{
 		t0 = sin0.startIndex;
 	}
-
 	long t1;
 	if(sin0.endIndex < sin1.endIndex)
 	{
@@ -58,6 +62,7 @@ double SinusoidalTrajectory::distance(SinusoidalTrajectory sin0, SinusoidalTraje
 		t1 = sin1.endIndex;
 	}
 
+	//Handle overlap penalty/calculate amp, freq + stereo distances
 	if(t1 < t0)
 	{
 		overlap = false;
@@ -76,6 +81,7 @@ double SinusoidalTrajectory::distance(SinusoidalTrajectory sin0, SinusoidalTraje
 		ds *= scale;
 	}
 
+	//Calculate the harmonic distance
 	//Used ceil instead of floor to cover error case
 	//e.g. let minFreq = sin0.meanFreq = 5 and sin1.meanFreq = 24.9
 	//We want to consider a = 1, b = 5
@@ -84,11 +90,17 @@ double SinusoidalTrajectory::distance(SinusoidalTrajectory sin0, SinusoidalTraje
 	double dh = numeric_limits<double>::max();
 	for(long a = 1; a <= maxA; a++)
 	{
+		//For each value of a, the minimum values will be from one of the two b
+		//values around expectedB
 		double expectedB = a*sin1.meanFreq/sin0.meanFreq;
+
+		//expectedB increases with a, so at this point there can be no more options
 		if(expectedB > maxB)
 		{
 			break;
 		}
+
+		//Calculate the distance for each value of b
 		double dhab = abs(log(sin0.meanFreq*floor(expectedB)/(sin1.meanFreq*a)));
 		if(dh > dhab)
 		{
@@ -101,5 +113,6 @@ double SinusoidalTrajectory::distance(SinusoidalTrajectory sin0, SinusoidalTraje
 		}
 	}
 
+	//Return summed distance
 	return distanceWeightFreq*df + distanceWeightAmp*da + distanceWeightHarm*dh + distanceWeightStereo*ds + (overlap?0.:distanceMissPenalty);
 }
