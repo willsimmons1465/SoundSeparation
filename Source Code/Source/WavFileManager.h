@@ -42,4 +42,3 @@ public:
 	*/
 	void writeDerivedOutput(int outputNumber, vector<double>& lSampleVector, vector<double>& rSampleVector);
 };
-
