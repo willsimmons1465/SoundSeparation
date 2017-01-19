@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Cluster.h"
+#include "NMFSeparation.h"
 #include "SinusoidalModelSeparation.h"
 #include "Transform.h"
 #include "WavFileManager.h"
@@ -15,6 +16,8 @@ void testComplex(void);
 void testHamming(void);
 void testCluster(void);
 void testSinModSep(void);
+void testNMF(void);
+void testNMFSep(void);
 
 int main(void)
 {
@@ -24,7 +27,9 @@ int main(void)
 	//testComplex();
 	//testHamming();
 	//testCluster();
-	testSinModSep();
+	//testSinModSep();
+	//testNMF();
+	testNMFSep();
 
 	string wait;
 	cin >> wait;
@@ -87,13 +92,13 @@ void testStft(void)
 
 	cout << "Samples read" << endl;
 
-	vector<vector<complex<double>>>* lstft = Transform::stft(&lSampleVector, 4096, 1024, 4096);
-	vector<vector<complex<double>>>* rstft = Transform::stft(&rSampleVector, 4096, 1024, 4096);
+	Matrix<complex<double>>* lstft = Transform::stft(&lSampleVector, 4096, 1024, 4096);
+	Matrix<complex<double>>* rstft = Transform::stft(&rSampleVector, 4096, 1024, 4096);
 
 	cout << "STFTs calculated" << endl;
-	cout << lstft->size() << "x" << (*lstft)[0].size() << endl;
-	cout << (*lstft)[0][0].real() << " + " << (*lstft)[0][0].imag() << "j" << endl;
-	cout << (*lstft)[0][2048].real() << " + " << (*lstft)[0][2048].imag() << "j" << endl;
+	cout << lstft->data.size() << "x" << lstft->data[0].size() << endl;
+	cout << lstft->data[0][0].real() << " + " << lstft->data[0][0].imag() << "j" << endl;
+	cout << lstft->data[0][2048].real() << " + " << lstft->data[0][2048].imag() << "j" << endl;
 
 	vector<double>* lReconstructed = Transform::istft(lstft, 1024);
 	vector<double>* rReconstructed = Transform::istft(rstft, 1024);
@@ -164,6 +169,101 @@ void testSinModSep(void)
 	cout << "Samples read" << endl;
 
 	vector<vector<vector<double>>>* separated = SinusoidalModelSeparation::separate(&lSampleVector, &rSampleVector, 2);
+
+	cout << "Separated" << endl;
+
+	for(int i=0; i<2; i++)
+	{
+		fileManager.writeDerivedOutput(i, (*separated)[i][0], (*separated)[i][1]);
+	}
+
+	cout << "Separated sources written" << endl;
+
+	delete separated;
+}
+
+void testNMF(void)
+{
+	Matrix<double> realMix0 = Matrix<double>(4,1);
+	Matrix<double> realSource0 = Matrix<double>(1,4);
+	realMix0.data[0][0] = 2.;
+	realMix0.data[1][0] = 5.;
+	realMix0.data[2][0] = 1.;
+	realMix0.data[3][0] = 2.4;
+	realSource0.data[0][0] = 3;
+	realSource0.data[0][1] = 1;
+	realSource0.data[0][2] = 4;
+	realSource0.data[0][3] = 2;
+
+	Matrix<double>* mat0 = Matrix<double>::multiply(&realMix0, &realSource0);
+
+	Matrix<double> realMix1 = Matrix<double>(4,1);
+	Matrix<double> realSource1 = Matrix<double>(1,4);
+	realMix1.data[0][0] = 1.;
+	realMix1.data[1][0] = 7.;
+	realMix1.data[2][0] = 3.;
+	realMix1.data[3][0] = 4.;
+	realSource1.data[0][0] = 5;
+	realSource1.data[0][1] = 1;
+	realSource1.data[0][2] = 3;
+	realSource1.data[0][3] = 2;
+
+	Matrix<double>* mat1 = Matrix<double>::multiply(&realMix1, &realSource1);
+
+	Matrix<double> mat = Matrix<double>(4,4);
+
+	for(int i=0; i<4; i++)
+	{
+		for(int j=0; j<4; j++)
+		{
+			mat.data[i][j] = mat0->data[i][j] + mat1->data[i][j];
+			cout << mat.data[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+	cout << "Matrix created" << endl;
+
+	vector<Matrix<double>>* nmfResult = Transform::nmf(&mat, 2);
+
+	cout << "NMF completed" << endl;
+
+	for(int i=0; i<4; i++)
+	{
+		cout << nmfResult->data()[0].data[i][0] << " ";
+	}
+	cout << endl;
+	for(int i=0; i<4; i++)
+	{
+		cout << nmfResult->data()[1].data[0][i] << " ";
+	}
+	cout << endl;
+	for(int i=0; i<4; i++)
+	{
+		cout << nmfResult->data()[0].data[i][1] << " ";
+	}
+	cout << endl;
+	for(int i=0; i<4; i++)
+	{
+		cout << nmfResult->data()[1].data[1][i] << " ";
+	}
+
+	delete mat0;
+	delete mat1;
+	delete nmfResult;
+}
+
+void testNMFSep(void)
+{
+	WavFileManager fileManager("Guitar Trumpet/GD3vlfn_TGs41fn");
+
+	vector<double> lSampleVector;
+	vector<double> rSampleVector;
+	fileManager.readSoundSample(lSampleVector, rSampleVector);
+
+	cout << "Samples read" << endl;
+
+	vector<vector<vector<double>>>* separated = NMFSeparation::separate(&lSampleVector, &rSampleVector, 2);
 
 	cout << "Separated" << endl;
 

@@ -13,7 +13,7 @@ class Cluster
 public:
 
 	/**
-	* Cluster::kClusterLloyd(vector<vector<double>>*, int)
+	* Cluster::kClusterLloyd(Matrix<double>*, int)
 	*
 	* Implementation of Lloyd's algorithm for clustering.
 	* featureVectors is expected to be a vector of points, each point described by a

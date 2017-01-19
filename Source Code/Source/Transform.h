@@ -8,9 +8,11 @@
 #pragma once
 #include <complex>
 #include <vector>
+#include "Matrix.h"
 using namespace std;
 class Transform
 {
+	static const double nmfStepThreshold;
 public:
 
 	/**
@@ -21,17 +23,16 @@ public:
 	* In the output, the first dimension gives time and the second gives frequency bin,
 	* e.g. (*s)[3][6] corresponds to the quantity in the 7th frequency bin for the 4th window.
 	*/
-	static vector<vector<complex<double>>>* stft(vector<double>* samples, long windowSize, long hopSize, long nfft);
+	static Matrix<complex<double>>* stft(vector<double>* samples, long windowSize, long hopSize, long nfft);
 
 	/**
-	* Transform::istft(vector<vector<complex<double>>>*, long)
+	* Transform::istft(Matrix<complex<double>>*, long)
 	*
 	* Calculates the Inverse-Short-Time-Fourier-Transform (inverse of Transform::stft).
-	* Assumes stft provided is from Transform::stft, so it is a rectangular matrix and
-	* corresponds to a real input (so we are only given the half FFTs and can ignore
-	* the imaginary part of the result).
+	* Assumes stft provided corresponds to a real input (so we are only given the half FFTs 
+	* and can ignore the imaginary part of the result).
 	*/
-	static vector<double>* istft(vector<vector<complex<double>>>* stft, long hopSize);
+	static vector<double>* istft(Matrix<complex<double>>* stft, long hopSize);
 
 	/**
 	* Transform::hamming(long)
@@ -72,4 +73,15 @@ public:
 	* Designed to be inverse of Transform::halfFFT.
 	*/
 	static double* ifft(vector<complex<double>>* fft);
+
+	/**
+	* Transform::nmf(Matrix<double>*, long)
+	*
+	* Uses multiplicative-step Gradient descent to perform Non-negative Matrix Factorisation.
+	* nmfStepThreshold describes the minimum improvement to Euclidean distance needed to
+	* continue the descent; increase for more accuracy and decrease for speed.
+	* Returns a pair of matrices, the first is the mixing matrix and the second is the source.
+	*/
+	static vector<Matrix<double>>* nmf(Matrix<double>* x, long factors);
+
 };
