@@ -18,6 +18,7 @@ void testCluster(void);
 void testSinModSep(void);
 void testNMF(void);
 void testNMFSep(void);
+void testSoftCluster(void);
 
 int main(void)
 {
@@ -29,7 +30,9 @@ int main(void)
 	//testCluster();
 	//testSinModSep();
 	//testNMF();
-	testNMFSep();
+	//testNMFSep();
+	SinusoidalModelSeparation::optimiseParams();
+	//testSoftCluster();
 
 	string wait;
 	cin >> wait;
@@ -160,7 +163,10 @@ void testCluster(void)
 
 void testSinModSep(void)
 {
-	WavFileManager fileManager("Guitar Trumpet/GD3vlfn_TGs41fn");
+	//WavFileManager fileManager("Guitar Trumpet/GD3vlfn_TGs41fn");
+	WavFileManager fileManager("OptimiseTests/SE51fn_TGs41fn");
+
+	srand(19873496);
 
 	vector<double> lSampleVector;
 	vector<double> rSampleVector;
@@ -255,7 +261,8 @@ void testNMF(void)
 
 void testNMFSep(void)
 {
-	WavFileManager fileManager("Guitar Trumpet/GD3vlfn_TGs41fn");
+	//WavFileManager fileManager("Guitar Trumpet/GD3vlfn_TGs41fn");
+	WavFileManager fileManager("OptimiseTests/SE51fn_TGs41fn");
 
 	vector<double> lSampleVector;
 	vector<double> rSampleVector;
@@ -263,7 +270,7 @@ void testNMFSep(void)
 
 	cout << "Samples read" << endl;
 
-	vector<vector<vector<double>>>* separated = NMFSeparation::separate(&lSampleVector, &rSampleVector, 2);
+	vector<vector<vector<double>>>* separated = NMFSeparation::separate(&lSampleVector, &rSampleVector, 2, 1000);
 
 	cout << "Separated" << endl;
 
@@ -275,4 +282,34 @@ void testNMFSep(void)
 	cout << "Separated sources written" << endl;
 
 	delete separated;
+}
+
+void testSoftCluster(void)
+{
+	srand(19873495);
+	vector<vector<double>> featureVectors = vector<vector<double>>(10);
+	featureVectors[0].push_back(0.);
+	featureVectors[1].push_back(1.);
+	featureVectors[2].push_back(2.);
+	featureVectors[3].push_back(3.);
+	featureVectors[4].push_back(4.);
+	featureVectors[5].push_back(15.);
+	featureVectors[6].push_back(16.);
+	featureVectors[7].push_back(17.);
+	featureVectors[8].push_back(18.);
+	featureVectors[9].push_back(19.);
+	for(int i=0; i<featureVectors.size(); i++)
+	{
+		featureVectors[i].push_back(16.-0.4*featureVectors[i][0]);
+	}
+	Matrix<double>* clusters = Cluster::softKCluster(&featureVectors, 3, 1.);
+	for(int i=0; i<clusters->data.size(); i++)
+	{
+		for(int j=0; j<clusters->data[0].size(); j++)
+		{
+			cout << clusters->data[i][j] << ", ";
+		}
+		cout << endl;
+	}
+	delete clusters;
 }

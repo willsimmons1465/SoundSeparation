@@ -304,6 +304,10 @@ vector<Matrix<double>>* Transform::nmf(Matrix<double>* x, long n)
 		{
 			for(long i=0; i<n; i++)
 			{
+				if (mixModDenominator->data[t][i] == 0)
+				{
+					mixModDenominator->data[t][i] = numeric_limits<double>::lowest();
+				}
 				mix.data[t][i] *= mixModNumerator->data[t][i] / mixModDenominator->data[t][i];
 			}
 		}
@@ -311,6 +315,10 @@ vector<Matrix<double>>* Transform::nmf(Matrix<double>* x, long n)
 		{
 			for(long f=0; f<fCount; f++)
 			{
+				if (sourceModDenominator->data[i][f] == 0)
+				{
+					sourceModDenominator->data[i][f] = 1e-307;
+				}
 				source.data[i][f] *= sourceModNumerator->data[i][f] / sourceModDenominator->data[i][f];
 			}
 		}

@@ -11,16 +11,18 @@ using namespace std;
 class SinusoidalTrajectory
 {
 	static const double trajectoryDeltaFmax;
-	static const double distanceWeightFreq;
-	static const double distanceWeightAmp;
-	static const double distanceWeightHarm;
-	static const double distanceWeightStereo;
-	static const double distanceMissPenalty;
 public:
+	static double distanceWeightFreq; //was const value of 1 to give normalised weights
+	static double distanceWeightAmp; //not const as can be modified in SinusoidalModelSeparation::optimiseParams
+	static double distanceWeightHarm;
+	static double distanceWeightStereo;
+	static double distanceWeightOnset;
+	static double distanceMissPenalty;
 	vector<SinusoidalTrajectoryPoint> data;
 	long startIndex;
 	long endIndex;
 	double meanFreq;
+	double meanAmp;
 	SinusoidalTrajectory(long start, SinusoidalTrajectoryPoint firstPoint) : startIndex(start), endIndex(start), data() {data.push_back(firstPoint);}
 	
 	/**
@@ -64,4 +66,10 @@ public:
 	*/
 	static double distance(SinusoidalTrajectory sin0, SinusoidalTrajectory sin1, double minFreq);
 
+	static double distanceMiss(SinusoidalTrajectory sin0, SinusoidalTrajectory sin1);
+	static double distanceHarm(SinusoidalTrajectory sin0, SinusoidalTrajectory sin1, double minFreq);
+	static double distanceStereo(SinusoidalTrajectory sin0, SinusoidalTrajectory sin1);
+	static double distanceOnset(SinusoidalTrajectory sin0, SinusoidalTrajectory sin1);
+	static double distanceAmp(SinusoidalTrajectory sin0, SinusoidalTrajectory sin1);
+	static double distanceFreq(SinusoidalTrajectory sin0, SinusoidalTrajectory sin1);
 };

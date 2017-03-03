@@ -1,0 +1,261 @@
+\documentclass[10pt,twoside,a4paper]{report}
+
+\usepackage{a4}
+
+\begin{document}
+
+\pagenumbering{roman}
+
+\chapter*{Proforma}
+
+Name
+
+College
+
+Project Title
+
+Examination
+
+Word Count
+
+Project Originator
+
+Supervisor
+
+\section*{Original Aims of the Project}
+
+Describe what solution should do (1 paragraph)
+
+\section*{Work Completed}
+
+Describe code structure and libraries used
+
+OR
+
+Give tasks completed during project
+
+\section*{Special Difficulties}
+
+None
+
+\pagebreak
+
+\section*{Declaration}
+
+Look this up in pink book
+
+\tableofcontents
+
+\listoffigures
+
+\pagebreak
+
+\section*{Acknowledgements}
+
+Thank peeps
+
+\chapter{Introduction}
+
+\pagenumbering{arabic}
+
+Describe project aims
+
+\section{Motivation}
+
+Discuss uses for sound separation and need for this solution
+
+Mention Hadamard's conditions and ill-posed problem
+
+\section{Overview of Sound Separation}
+
+Describe forms of sound separation
+
+Specify parameters of problem being considered and explain why
+
+Published literature - following work of J. Bloggs
+
+\section{Current Implementations}
+
+Say what Melodyne does and other music-oriented piece
+
+Beamforming?
+
+\section{Overview of the Dissertation (Optional)}
+
+Sentence on each section of the dissertation
+
+\chapter{Preparation}
+
+Brief statement about design choices
+
+\section{Choice of Overall Process}
+
+Describe general flow of data through solution + reasons
+
+Alternative(s) - no features?
+
+Comment on human process
+
+\section{Choice of Features}
+
+Define sinusoidal trajectories
+
+NMF and matrix factors
+
+Other possible feature?
+
+STFT vs Wavelets
+
+\section{Choice of Implementation}
+
+Mention typical code examples (i.e. MATLAB)
+
+Discuss usefulness of Object-Oriented style
+
+Final choices for style and platform
+
+Libraries used
+
+\section{Software Engineering Approach}
+
+\subsection{Requirements}
+
+Required actions in the project
+
+Features of solution
+
+\subsection{Software Development Process/Methodology}
+
+Originally planned as waterfall
+
+Result was spiral/incremental, I guess?
+
+\subsection{Version Control and Back-up}
+
+VCS and back-up
+
+\subsection{Testing}
+
+Acquisition and use of samples
+
+Generation of synthetic sounds
+
+Metrics of evaluation - cosine similarity of final audio data; similarity of spectrograms?
+
+\chapter{Implementation}
+
+Contents of solution and how to use it
+
+\section{Signal Transforms}
+
+STFT, iSTFT
+
+Problems encountered in making them
+
+\section{Sinusoidal Trajectories}
+
+Point structure
+
+Trajectory structure
+
+Distance measurements
+
+Problems
+
+\section{Matrix Factorisation}
+
+NMF implementation (Lee and Seung)
+
+Distance measurements
+
+Problems
+
+\section{Clustering Algorithms}
+
+Hard clustering
+
+Soft clustering
+
+NMF
+
+Problems
+
+\section{Additional Features}
+
+File handling
+
+Thresholding
+
+Phase consistency
+
+Noise splitting
+
+\section{Tests}
+
+Unit tests
+
+Parameter optimisation
+
+\section{Software Engineering Practice}
+
+Comment on how methodology changed
+
+Library use, documentation, code structure
+
+Comment on schedule
+
+\chapter{Evaluation}
+
+Statement about contents of chapter
+
+\section{Method Comparisons}
+
+Metric definitions
+
+Test sets
+
+\subsection{Sinusoids vs. NMF}
+
+\subsection{Hard vs. Soft vs. Matrix vs. Naive Clustering}
+
+\subsection{Addition of Noise}
+
+\section{Case Analysis}
+
+Describe chosen final solution for further analysis
+
+\subsection{Performance Against Noise}
+
+Varying noise level
+
+Varying threshold without noise
+
+\subsection{Performance Against Stereo Separation}
+
+\subsection{Performance Against Frequency Offset}
+
+\subsection{Synthetic Pathological Cases}
+
+\chapter{Conclusion}
+
+Paragraph stating tasks completed over project
+
+Open questions on topic
+
+Comment on my workflow during project
+
+Potential further extensions - UI for assisted clustering
+
+Use of solutions and state of field
+
+\appendix
+
+\chapter{Test Cases}
+
+Include spectrograms of examples of typical test inputs, performance tests and pathological cases
+
+\chapter{Project Proposal}
+
+Include original proposal
+
+\end{document}

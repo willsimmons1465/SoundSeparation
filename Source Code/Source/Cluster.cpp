@@ -1,5 +1,7 @@
 #include "Cluster.h"
+#include <math.h>
 //#include <cstdlib>
+//#include <iostream>
 
 //Helper method for kClusterLloyd
 //Returns square of Euclidean distance between vectors.
@@ -105,4 +107,95 @@ vector<int>* Cluster::kClusterLloyd(vector<vector<double>>* featureVectors, int 
 	}
 
 	return clusterTags;
+}
+
+
+Matrix<double>* Cluster::softKCluster(vector<vector<double>>* featureVectors, int k, double stiffness)
+{
+	long vectorCount = featureVectors->size();
+	long featureCount = (*featureVectors)[0].size();
+	Matrix<double>* forceMatrix = new Matrix<double>(vectorCount, k);
+
+	vector<vector<double>> centres = vector<vector<double>>();
+	for(int c=0; c<k; c++)
+	{
+		long centreChoice = rand() % vectorCount;
+		centres.push_back(vector<double>((*featureVectors)[centreChoice]));
+	}
+
+	double lastError = numeric_limits<double>::max();
+	while(true)
+	{
+		/*for(int c=0; c<k; c++)
+		{
+			cout << "Centre " << c << ": ";
+			for(int f=0; f<featureCount; f++)
+			{
+				cout << centres[c][f] << ", ";
+			}
+			cout << endl;
+		}*/
+
+		double error = 0;
+		vector<double> totalForCentre = vector<double>(k);
+		for(long v=0; v<vectorCount; v++)
+		{
+			double totalForPoint = 0.;
+			for(int c=0; c<k; c++)
+			{
+				double dist = distance(&((*featureVectors)[v]), &(centres[c]));
+				forceMatrix->data[v][c] = exp(-stiffness*dist);
+				error += forceMatrix->data[v][c] * dist;
+				totalForPoint += forceMatrix->data[v][c];
+			}
+			for(int c=0; c<k; c++)
+			{
+				forceMatrix->data[v][c] /= totalForPoint;
+				totalForCentre[c] += forceMatrix->data[v][c];
+			}
+		}
+
+		/*for(long v=0; v<vectorCount; v++)
+		{
+			cout << "Force on " << v << ": ";
+			for(int c=0; c<k; c++)
+			{
+				cout << forceMatrix->data[v][c] << ", ";
+			}
+			cout << endl;
+		}*/
+
+		//if(abs(lastError-error) < 0.001)
+		if(abs(lastError-error) < 10)
+		{
+			break;
+		}
+		lastError = error;
+
+		/*for(long v=0; v<vectorCount; v++)
+		{
+			for(int c=0; c<k; c++)
+			{
+				forceMatrix->data[v][c] /= totalForCentre[c];
+			}
+		}*/
+
+		for(int c=0; c<k; c++)
+		{
+			for(long f=0; f<featureCount; f++)
+			{
+				centres[c][f] = 0;
+			}
+			for(long v=0; v<vectorCount; v++)
+			{
+				for(long f=0; f<featureCount; f++)
+				{
+					//centres[c][f] += forceMatrix->data[v][c] * (*featureVectors)[v][f];
+					centres[c][f] += forceMatrix->data[v][c] * (*featureVectors)[v][f] / totalForCentre[c];
+				}
+			}
+		}
+	}
+
+	return forceMatrix;
 }
