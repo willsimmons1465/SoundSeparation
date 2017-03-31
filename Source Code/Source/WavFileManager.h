@@ -8,17 +8,18 @@
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <vector>
+#include <Eigen/Core>
 using namespace std;
 class WavFileManager
 {
 	//WVS22 - 08/01/2017 - Get samples from file in chunks
 	static const int samplesPerChunk = 1024;
 	juce::AudioFormatManager formatManager;
-	juce::String sampleName;
+	juce::String filename;
 	juce::AudioFormatReader* reader;
 	juce::StringPairArray metadata;
 public:
-	WavFileManager(juce::String iSamplename);
+	WavFileManager(juce::String iFilename);
 	~WavFileManager(void);
 
 	/**
@@ -30,9 +31,10 @@ public:
 	* 3.051757812500000e-05 in MATLAB. Consider this scaling when comparing values to MATLAB.
 	*/
 	void readSoundSample(vector<double>& lSampleVector, vector<double>& rSampleVector);
+	void readSoundSample(Eigen::VectorXd* lSampleVector, Eigen::VectorXd* rSampleVector);
 
 	/**
-	* WavFileManager::writeDesirvedOutput(int, vector<double>&, vector<double>&)
+	* WavFileManager::writeDerivedOutput(int, vector<double>&, vector<double>&)
 	*
 	* Creates a new wav file in C:/Users/Will/OneDrive/Uni/Individual Project/SoundSeparation/Output Sounds SM/
 	* entitled sampleName_outputNumber.wav containing the samples provided.
@@ -41,5 +43,6 @@ public:
 	* file.
 	*/
 	void writeDerivedOutput(int outputNumber, vector<double>& lSampleVector, vector<double>& rSampleVector);
+	void writeDerivedOutput(int outputNumber, Eigen::VectorXd* lSampleVector, Eigen::VectorXd* rSampleVector);
 
 };

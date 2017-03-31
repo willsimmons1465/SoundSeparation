@@ -1,0 +1,51 @@
+\begin{thebibliography}{10}
+
+\bibitem{virtanen2000separation}
+T.~Virtanen and A.~Klapuri, ``Separation of harmonic sound sources using
+  sinusoidal modeling,'' in {\em Acoustics, Speech, and Signal Processing,
+  2000. ICASSP'00. Proceedings. 2000 IEEE International Conference on}, vol.~2,
+  pp.~II765--II768, IEEE, 2000.
+
+\bibitem{virtanen2003sound}
+T.~Virtanen, ``Sound source separation using sparse coding with temporal
+  continuity objective.,'' in {\em ICMC}, pp.~231--234, 2003.
+
+\bibitem{juce}
+R.~Ltd, ``Juce,'' 2017.
+
+\bibitem{cherry1953some}
+E.~C. Cherry, ``Some experiments on the recognition of speech, with one and
+  with two ears,'' {\em The Journal of the acoustical society of America},
+  vol.~25, no.~5, pp.~975--979, 1953.
+
+\bibitem{hadamard1902problemes}
+J.~Hadamard, ``Sur les probl{\`e}mes aux d{\'e}riv{\'e}es partielles et leur
+  signification physique,'' {\em Princeton university bulletin}, vol.~13,
+  no.~49-52, p.~28, 1902.
+
+\bibitem{melodyne}
+C.~S. GmbH, ``Celemony,'' 2017.
+
+\bibitem{spatralayers}
+M.~S. GmbH, ``Spectralayers pro,'' 2017.
+
+\bibitem{bregman1994auditory}
+A.~S. Bregman, {\em Auditory scene analysis: The perceptual organization of
+  sound}.
+\newblock MIT press, 1994.
+
+\bibitem{philharmonia}
+P.~Ltd, ``Philharmonia orchestra sound samples,'' 2017.
+
+\bibitem{audacity}
+A.~Team, ``Audacity,'' 2017.
+
+\bibitem{fftw}
+M.~Frigo, ``Fftw,'' 2017.
+
+\bibitem{lee2001algorithms}
+D.~D. Lee and H.~S. Seung, ``Algorithms for non-negative matrix
+  factorization,'' in {\em Advances in neural information processing systems},
+  pp.~556--562, 2001.
+
+\end{thebibliography}

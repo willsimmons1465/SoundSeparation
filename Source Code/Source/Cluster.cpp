@@ -15,11 +15,11 @@ double distance(vector<double>* vector0, vector<double>* vector1)
 	return sum;
 }
 
-vector<int>* Cluster::kClusterLloyd(vector<vector<double>>* featureVectors, int k)
+vector<int>* Cluster::kClusterLloyd(Eigen::MatrixXd* featureVectors, int k)
 {
 	//Get parameters
-	long vectorCount = featureVectors->size();
-	long featureCount = (*featureVectors)[0].size();
+	long vectorCount = featureVectors->rows();
+	long featureCount = featureVectors->cols();
 
 	//Identify ranges of values for each feature
 	/*vector<double> mins = vector<double>();
@@ -46,11 +46,17 @@ vector<int>* Cluster::kClusterLloyd(vector<vector<double>>* featureVectors, int 
 	}*/
 
 	//Select random points as initial centres
-	vector<vector<double>> centres = vector<vector<double>>();
+	/*vector<vector<double>> centres = vector<vector<double>>();
 	for(int c=0; c<k; c++)
 	{
 		long centreChoice = rand() % vectorCount;
 		centres.push_back(vector<double>((*featureVectors)[centreChoice]));
+	}*/
+	Eigen::MatrixXd centres = Eigen::MatrixXd(k, featureCount);
+	for(int c=0; c<k; c++)
+	{
+		long centreChoice = rand() % vectorCount;
+		centres.row(c) = featureVectors->row(centreChoice);
 	}
 
 	//Improve centres
@@ -62,11 +68,15 @@ vector<int>* Cluster::kClusterLloyd(vector<vector<double>>* featureVectors, int 
 		tagsChanged = 0;
 		for(long v=0; v<vectorCount; v++)
 		{
+			//Eigen::VectorXd currentVector = featureVectors->row(v);
 			int bestTag = -1;
 			double bestDistance = numeric_limits<double>::max();
 			for(int c=0; c<k; c++)
 			{
-				double dist = distance(&((*featureVectors)[v]), &(centres[c]));
+				//double dist = distance(&((*featureVectors)[v]), &(centres[c]));
+				//Eigen::VectorXd currentCentre = centres.row(c);
+				//double dist = (currentVector - currentCentre).squaredNorm();
+				double dist = (featureVectors->row(v) - centres.row(c)).squaredNorm();
 				if(bestDistance > dist)
 				{
 					bestDistance = dist;
@@ -81,7 +91,7 @@ vector<int>* Cluster::kClusterLloyd(vector<vector<double>>* featureVectors, int 
 		}
 		
 		//Recalculate the centres given their clusters
-		for(int c=0; c<k; c++)
+		/*for(int c=0; c<k; c++)
 		{
 			long clusterSize = 0;
 			for(long f=0; f<featureCount; f++)
@@ -103,6 +113,19 @@ vector<int>* Cluster::kClusterLloyd(vector<vector<double>>* featureVectors, int 
 			{
 				centres[c][f] /= clusterSize;
 			}
+		}*/
+
+		centres.setZero(centres.rows(), centres.cols());
+		vector<int> clusterSizes = vector<int>(k);
+		for(long v=0; v<vectorCount; v++)
+		{
+			int cluster = (*clusterTags)[v];
+			centres.row(cluster) += (*featureVectors).row(v);
+			clusterSizes[cluster]++;
+		}
+		for(int c=0; c<k; c++)
+		{
+			centres.row(c) /= clusterSizes[c];
 		}
 	}
 
@@ -110,17 +133,22 @@ vector<int>* Cluster::kClusterLloyd(vector<vector<double>>* featureVectors, int 
 }
 
 
-Matrix<double>* Cluster::softKCluster(vector<vector<double>>* featureVectors, int k, double stiffness)
+Eigen::MatrixXd* Cluster::softKCluster(Eigen::MatrixXd* featureVectors, int k, double stiffness)
 {
-	long vectorCount = featureVectors->size();
-	long featureCount = (*featureVectors)[0].size();
-	Matrix<double>* forceMatrix = new Matrix<double>(vectorCount, k);
+	long vectorCount = featureVectors->rows();
+	long featureCount = featureVectors->cols();
+	Eigen::MatrixXd* forceMatrix = new Eigen::MatrixXd(vectorCount, k);
 
-	vector<vector<double>> centres = vector<vector<double>>();
-	for(int c=0; c<k; c++)
+	Eigen::MatrixXd centres = Eigen::MatrixXd(k, featureCount);
+	/*for(int c=0; c<k; c++)
 	{
 		long centreChoice = rand() % vectorCount;
 		centres.push_back(vector<double>((*featureVectors)[centreChoice]));
+	}*/
+	for(int c=0; c<k; c++)
+	{
+		long centreChoice = rand() % vectorCount;
+		centres.row(c) = featureVectors->row(centreChoice);
 	}
 
 	double lastError = numeric_limits<double>::max();
@@ -137,22 +165,26 @@ Matrix<double>* Cluster::softKCluster(vector<vector<double>>* featureVectors, in
 		}*/
 
 		double error = 0;
-		vector<double> totalForCentre = vector<double>(k);
+		//Eigen::VectorXd totalForCentre = Eigen::VectorXd(k);
 		for(long v=0; v<vectorCount; v++)
 		{
-			double totalForPoint = 0.;
+			//Eigen::VectorXd currentVector = featureVectors->row(v);
+			//double totalForPoint = 0.;
 			for(int c=0; c<k; c++)
 			{
-				double dist = distance(&((*featureVectors)[v]), &(centres[c]));
-				forceMatrix->data[v][c] = exp(-stiffness*dist);
-				error += forceMatrix->data[v][c] * dist;
-				totalForPoint += forceMatrix->data[v][c];
+				//double dist = distance(&((*featureVectors)[v]), &(centres[c]));
+				double dist = (featureVectors->row(v) - centres.row(c)).squaredNorm();
+				(*forceMatrix)(v, c) = exp(-stiffness*dist);
+				error += (*forceMatrix)(v, c) * dist;
+				//totalForPoint += (*forceMatrix)(v, c);
 			}
-			for(int c=0; c<k; c++)
+			/*for(int c=0; c<k; c++)
 			{
-				forceMatrix->data[v][c] /= totalForPoint;
-				totalForCentre[c] += forceMatrix->data[v][c];
-			}
+				(*forceMatrix)(v, c) /= totalForPoint;
+				totalForCentre[c] += (*forceMatrix)(v, c);
+			}*/
+			forceMatrix->row(v).normalize();
+			
 		}
 
 		/*for(long v=0; v<vectorCount; v++)
@@ -180,7 +212,7 @@ Matrix<double>* Cluster::softKCluster(vector<vector<double>>* featureVectors, in
 			}
 		}*/
 
-		for(int c=0; c<k; c++)
+		/*for(int c=0; c<k; c++)
 		{
 			for(long f=0; f<featureCount; f++)
 			{
@@ -191,9 +223,14 @@ Matrix<double>* Cluster::softKCluster(vector<vector<double>>* featureVectors, in
 				for(long f=0; f<featureCount; f++)
 				{
 					//centres[c][f] += forceMatrix->data[v][c] * (*featureVectors)[v][f];
-					centres[c][f] += forceMatrix->data[v][c] * (*featureVectors)[v][f] / totalForCentre[c];
+					centres[c][f] += (*forceMatrix)(v, c) * (*featureVectors)[v][f] / totalForCentre[c];
 				}
 			}
+		}*/
+		centres = (*forceMatrix).transpose() * (*featureVectors);
+		for(int c=0; c<k; c++)
+		{
+			centres.row(c) /= forceMatrix->col(c).sum();
 		}
 	}
 

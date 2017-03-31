@@ -6,11 +6,12 @@
 */
 #pragma once
 #include <vector>
-#include "Matrix.h"
+//#include "Matrix.h"
+#include <Eigen/Core>
 using namespace std;
 class Cluster
 {
-	static const long lloydConvergeLimit = 1;
+	static const long lloydConvergeLimit = 0;
 public:
 
 	/**
@@ -26,7 +27,7 @@ public:
 	* Convergence is determined when the number of points which switch clusters drops
 	* below lloydConvergeLimit. Raise this value to improve speed, sacrificing quality.
 	*/
-	static vector<int>* kClusterLloyd(vector<vector<double>>* featureVectors, int k);
+	static vector<int>* kClusterLloyd(Eigen::MatrixXd* featureVectors, int k);
 
-	static Matrix<double>* softKCluster(vector<vector<double>>* featureVectors, int k, double stiffness);
+	static Eigen::MatrixXd* softKCluster(Eigen::MatrixXd* featureVectors, int k, double stiffness);
 };

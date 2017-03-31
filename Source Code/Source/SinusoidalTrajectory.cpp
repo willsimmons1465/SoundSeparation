@@ -16,6 +16,9 @@ double SinusoidalTrajectory::distanceWeightOnset = .02;
 //*double SinusoidalTrajectory::distanceWeightOnset = 1.;
 double SinusoidalTrajectory::distanceMissPenalty = 36.;
 //*double SinusoidalTrajectory::distanceMissPenalty = 43.;
+double SinusoidalTrajectory::distanceMissPenaltyFreq = 36.;
+double SinusoidalTrajectory::distanceMissPenaltyAmp = 36.;
+double SinusoidalTrajectory::distanceMissPenaltyStereo = 36.;
 
 bool SinusoidalTrajectory::canAccept(SinusoidalTrajectoryPoint point)
 {
@@ -189,7 +192,8 @@ double SinusoidalTrajectory::distanceStereo(SinusoidalTrajectory sin0, Sinusoida
 	long t1 = min(sin0.startIndex, sin1.startIndex);
 	if (t1<t0)
 	{
-		return distanceMissPenalty;
+		//return distanceMissPenalty;
+		return distanceMissPenaltyStereo;
 	}
 	for(long t=t0; t<=t1; t++)
 	{
@@ -214,7 +218,8 @@ double SinusoidalTrajectory::distanceAmp(SinusoidalTrajectory sin0, SinusoidalTr
 	long t1 = min(sin0.startIndex, sin1.startIndex);
 	if (t1<t0)
 	{
-		return distanceMissPenalty;
+		//return distanceMissPenalty;
+		return distanceMissPenaltyAmp;
 	}
 	for(long t=t0; t<=t1; t++)
 	{
@@ -233,7 +238,8 @@ double SinusoidalTrajectory::distanceFreq(SinusoidalTrajectory sin0, SinusoidalT
 	long t1 = min(sin0.startIndex, sin1.startIndex);
 	if (t1<t0)
 	{
-		return distanceMissPenalty;
+		//return distanceMissPenalty;
+		return distanceMissPenaltyFreq;
 	}
 	for(long t=t0; t<=t1; t++)
 	{

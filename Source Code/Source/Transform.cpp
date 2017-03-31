@@ -1,19 +1,20 @@
 #include "Transform.h"
 #include <cmath>
+#include <iostream>
 
 #define PI 3.14159265358979323846
 
 const double Transform::nmfStepThreshold = 1e-7;
 
-double* Transform::hamming(long size)
+vector<double>* Transform::hamming(long size)
 {
 	//Create array for resule
-	double* retVal = new double[size];
+	vector<double>* retVal = new vector<double>(size);
 
 	//Calculate samples of periodic Hamming window
 	for(long i=0; i<size; i++)
 	{
-		retVal[i] = 0.54 - 0.46*cos(2*PI*i/size);
+		(*retVal)[i] = 0.54 - 0.46*cos(2*PI*i/size);
 	}
 
 	return retVal;
@@ -68,9 +69,10 @@ long revbits(long value, int bits)
 	return result;
 }
 
-vector<complex<double>>* Transform::FFT(complex<double>* samples, long length)
+vector<complex<double>>* Transform::FFT(vector<complex<double>>* samples)
 {
 	//Get size parameters
+	long length = samples->size();
 	int n = (int) (log(length-1.)/log(2.)) + 1;
 	long paddedLength = 1<<n;
 
@@ -78,7 +80,7 @@ vector<complex<double>>* Transform::FFT(complex<double>* samples, long length)
 	vector<complex<double>>* retVal = new vector<complex<double>>(paddedLength);
 	for(long i=0; i<length; i++)
 	{
-		(*retVal)[i] = samples[i];
+		(*retVal)[i] = (*samples)[i];
 	}
 
 	//Perform in-place butterfly FFT
@@ -99,22 +101,23 @@ vector<complex<double>>* Transform::FFT(complex<double>* samples, long length)
 	return retVal;
 }
 
-vector<complex<double>>* Transform::halfFFT(double* samples, long nfft)
+vector<complex<double>>* Transform::halfFFT(vector<double>* samples)
 {
 	//Since input is real, can pack into a half-size FFT
-	const long packedLength = (nfft+1)/2;
-	complex<double>* packedSamples = new complex<double>[packedLength];
-	for(long i=0; i<nfft/2; i++)
+	long length = samples->size();
+	const long packedLength = (length+1)/2;
+	vector<complex<double>> packedSamples = vector<complex<double>>(packedLength);
+	for(long i=0; i<length/2; i++)
 	{
-		packedSamples[i] = complex<double>(samples[2*i], samples[2*i + 1]);
+		packedSamples[i] = complex<double>((*samples)[2*i], (*samples)[2*i + 1]);
 	}
-	if(packedLength > nfft/2)
+	if(packedLength > length/2)
 	{
-		packedSamples[packedLength-1] = complex<double>(samples[nfft-1]);
+		packedSamples[packedLength-1] = complex<double>((*samples)[length-1]);
 	}
 
 	//Pad and compute FFT
-	vector<complex<double>>* fft = FFT(packedSamples, packedLength);
+	vector<complex<double>>* fft = FFT(&packedSamples);
 	long fftLength = fft->size();
 
 	//Unpack values up to Nyquist limit
@@ -132,42 +135,42 @@ vector<complex<double>>* Transform::halfFFT(double* samples, long nfft)
 	(*retVal)[fftLength] = ((*fft)[0] + conj((*fft)[0]) + complex<double>(0.,1.)*((*fft)[0] - conj((*fft)[0])))*0.5;
 
 	//Clean up
-	delete packedSamples;
+	//delete packedSamples;
 	delete fft;
 
 	return retVal;
 }
 
-double* Transform::ifft(vector<complex<double>>* fft)
+vector<double>* Transform::ifft(vector<complex<double>>* fft)
 {
 	//Inverse DFT can be done by applying conjugate, then forwards DFT, conjugate and scale
 	//Conjugate input
 	const long length = fft->size();
-	complex<double>* fftConj = new complex<double>[length];
+	vector<complex<double>> fftConj = vector<complex<double>>(length);
 	for(long i=0; i<length; i++)
 	{
 		fftConj[i] = conj((*fft)[i]);
 	}
 
 	//Compute FFT forwards
-	vector<complex<double>>* complexSamples = FFT(fftConj, length);
+	vector<complex<double>>* complexSamples = FFT(&fftConj);
 
 	//Since only considering real output, conjugate does nothing, so just take the real part
-	double* retVal = new double[length];
+	vector<double>* retVal = new vector<double>(length);
 	for(long i=0; i<length; i++)
 	{
-		retVal[i] = (*complexSamples)[i].real()/length;
+		(*retVal)[i] = (*complexSamples)[i].real()/length;
 	}
 
 	//Clean up
-	delete fftConj;
+	//delete fftConj;
 	delete complexSamples;
 
 	return retVal;
 }
 
 
-Matrix<complex<double>>* Transform::stft(vector<double>* samples, long windowSize, long hopSize, long nfft)
+Eigen::MatrixXcd* Transform::stft(vector<double>* samples, long windowSize, long hopSize, long nfft)
 {
 	//Get spectrum size
 	const long sampleCount = samples->size();
@@ -175,11 +178,11 @@ Matrix<complex<double>>* Transform::stft(vector<double>* samples, long windowSiz
 
 	//Get access to samples and window function
 	double* sampleP = samples->data();
-	double* window = hamming(windowSize);
+	vector<double>* window = hamming(windowSize);
 
 	//Calculate spectrum
-	Matrix<complex<double>>* spectrum = new Matrix<complex<double>>(0, 0);
-	double* windowedFrame = new double[nfft];
+	Eigen::MatrixXcd* spectrum = new Eigen::MatrixXcd();
+	vector<double> windowedFrame = vector<double>(nfft);
 	for(long col=0; col<columns; col++)
 	{
 		//In each time frame, find the start and apply window function
@@ -187,35 +190,80 @@ Matrix<complex<double>>* Transform::stft(vector<double>* samples, long windowSiz
 		double* frame = sampleP + startOfFrame;
 		for(long i=0; i<windowSize; i++)
 		{
-			windowedFrame[i] = frame[i] * window[i];
+			windowedFrame[i] = frame[i] * (*window)[i];
 		}
 
 		//Apply FFT to get spectrum
 		//Only need half FFT as data is real
-		vector<complex<double>>* columnData = halfFFT(windowedFrame, nfft);
-		spectrum->data.push_back(*columnData);
-		delete columnData;
+		vector<complex<double>>* frameFFT = halfFFT(&windowedFrame);
+		//spectrum->col(col) = Eigen::Map<Eigen::VectorXcd>(&((*frameFFT)[0]), frameFFT->size()).transpose();
+		spectrum->conservativeResize(columns, frameFFT->size());
+		Eigen::VectorXcd vec = (Eigen::VectorXcd::Map(frameFFT->data(), frameFFT->size()));
+		spectrum->row(col) = vec;
+
+		delete frameFFT;
 	}
 
 	//Clean up
 	delete window;
-	delete windowedFrame;
+	//delete windowedFrame;
 
 	return spectrum;
 }
 
-vector<double>* Transform::istft(Matrix<complex<double>>* stft, long hopSize)
+Eigen::MatrixXcd* Transform::stft(Eigen::VectorXd* samples, long windowSize, long hopSize, long nfft)
+{
+	//Get spectrum size
+	const long sampleCount = samples->size();
+	const long frameCount = 1 + (sampleCount - windowSize)/hopSize;
+
+	//Get access to samples and window function
+	double* sampleP = samples->data();
+	vector<double>* window = hamming(windowSize);
+
+	//Calculate spectrum
+	Eigen::MatrixXcd* spectrum = new Eigen::MatrixXcd();
+	vector<double> windowedFrame = vector<double>(nfft);
+	for(long t=0; t<frameCount; t++)
+	{
+		//In each time frame, find the start and apply window function
+		const long startOfFrame = t*hopSize;
+		double* frame = sampleP + startOfFrame;
+		for(long i=0; i<windowSize; i++)
+		{
+			windowedFrame[i] = frame[i] * (*window)[i];
+		}
+
+		//Apply FFT to get spectrum
+		//Only need half FFT as data is real
+		vector<complex<double>>* frameFFT = halfFFT(&windowedFrame);
+		//spectrum->col(col) = Eigen::Map<Eigen::VectorXcd>(&((*frameFFT)[0]), frameFFT->size()).transpose();
+		spectrum->conservativeResize(frameCount, frameFFT->size());
+		Eigen::VectorXcd vec = (Eigen::VectorXcd::Map(frameFFT->data(), frameFFT->size()));
+		spectrum->row(t) = vec;
+
+		delete frameFFT;
+	}
+
+	//Clean up
+	delete window;
+	//delete windowedFrame;
+
+	return spectrum;
+}
+
+/*vector<double>* Transform::istft(Eigen::MatrixXcd* stft, long hopSize)
 {
 	//Get parameters
-	const long nfft = stft->data[0].size();
-	const long columns = stft->data.size();
+	const long nfft = stft->cols();
+	const long columns = stft->rows();
 	const long sampleCount = nfft + (columns-1)*hopSize;
 
 	//Create vector for output samples
 	vector<double>* retVal = new vector<double>(sampleCount);
 
 	//Get window function
-	double* window = hamming(nfft);
+	vector<double>* window = hamming(nfft);
 
 	//Perform ISTFT
 	for(long col=0; col<columns; col++)
@@ -225,14 +273,17 @@ vector<double>* Transform::istft(Matrix<complex<double>>* stft, long hopSize)
 
 		//Calculate the samples for the time frame
 		//Can use the half FFT directly since we are only taking the real part of the result
-		double* frame = ifft(&(stft->data[col]));
+		Eigen::VectorXcd columnFFT = stft->row(col);
+		vector<complex<double>>* frameFFT = new vector<complex<double>>(columnFFT.data(), columnFFT.data() + columnFFT.rows() * columnFFT.cols());
+		vector<double>* frame = ifft(frameFFT);
 
 		//Apply window function to samples to interpolate between frames and add to result
 		for(long i=0; i<nfft; i++)
 		{
-			(*retVal)[startOfFrame+i] += frame[i] * window[i];
+			(*retVal)[startOfFrame+i] += (*frame)[i] * (*window)[i];
 		}
-
+		
+		delete frameFFT;
 		delete frame;
 	}
 
@@ -240,7 +291,7 @@ vector<double>* Transform::istft(Matrix<complex<double>>* stft, long hopSize)
 	double sum = 0.;
 	for(long i=0; i<nfft; i++)
 	{
-		sum += window[i]*window[i];
+		sum += (*window)[i]*(*window)[i];
 	}
 	const double scale = hopSize/sum;
 	for(long i=0; i<sampleCount; i++)
@@ -252,9 +303,64 @@ vector<double>* Transform::istft(Matrix<complex<double>>* stft, long hopSize)
 	delete window;
 
 	return retVal;
+}*/
+
+Eigen::VectorXd* Transform::istft(Eigen::MatrixXcd* stft, long hopSize)
+{
+	//Get parameters
+	const long nfft = stft->cols();
+	const long frameCount = stft->rows();
+	const long sampleCount = nfft + (frameCount-1)*hopSize;
+
+	//Create vector for output samples
+	Eigen::VectorXd* retVal = new Eigen::VectorXd(sampleCount);
+	(*retVal) = Eigen::VectorXd::Zero(sampleCount);
+
+	//Get window function
+	vector<double>* window = hamming(nfft);
+
+	//Perform ISTFT
+	for(long t=0; t<frameCount; t++)
+	{
+		//For each time step, find the position to place the samples at
+		const long startOfFrame = t*hopSize;
+
+		//Calculate the samples for the time frame
+		//Can use the half FFT directly since we are only taking the real part of the result
+		Eigen::VectorXcd columnFFT = stft->row(t);
+		vector<complex<double>>* frameFFT = new vector<complex<double>>(columnFFT.data(), columnFFT.data() + columnFFT.size());
+		vector<double>* frame = ifft(frameFFT);
+
+		//Apply window function to samples to interpolate between frames and add to result
+		for(long i=0; i<nfft; i++)
+		{
+			(*retVal)(startOfFrame+i) += (*frame)[i] * (*window)[i];
+		}
+		
+		delete frameFFT;
+		delete frame;
+	}
+
+	//Remove scaling caused by window function
+	double sum = 0.;
+	for(long i=0; i<nfft; i++)
+	{
+		sum += (*window)[i]*(*window)[i];
+	}
+	const double scale = hopSize/sum;
+	/*for(long i=0; i<sampleCount; i++)
+	{
+		(*retVal)(i) *= scale;
+	}*/
+	(*retVal) *= scale;
+
+	//Clean up
+	delete window;
+
+	return retVal;
 }
 
-vector<Matrix<double>>* Transform::nmf(Matrix<double>* x, long n)
+/*vector<Matrix<double>>* Transform::nmf(Matrix<double>* x, long n)
 {
 	//Get matrix parameters
 	long tCount = x->data.size();
@@ -366,6 +472,115 @@ vector<Matrix<double>>* Transform::nmf(Matrix<double>* x, long n)
 
 	//Compile return value
 	vector<Matrix<double>>* retVal = new vector<Matrix<double>>();
+	retVal->push_back(mix);
+	retVal->push_back(source);
+
+	return retVal;
+}*/
+
+vector<Eigen::MatrixXd>* Transform::nmf(Eigen::MatrixXd* x, long n)
+{
+	//Get matrix parameters
+	long tCount = x->rows();
+	long fCount = x->cols();
+
+	//Select random rows and columns from x for initial mix and source estimates
+	Eigen::MatrixXd mix = Eigen::MatrixXd(tCount, n);
+	Eigen::MatrixXd source = Eigen::MatrixXd(n, fCount);
+	for(long i=0; i<n; i++)
+	{
+		long randIndex = rand() % tCount;
+		//source.data.push_back(vector<double>(x->data[randIndex]));
+		source.row(i) = x->row(randIndex);
+		randIndex = rand() % fCount;
+		/*for(long t=0; t<tCount; t++)
+		{
+			mix.data[t][i] = x->data[t][randIndex];
+		}*/
+		mix.col(i) = x->col(randIndex);
+	}
+
+	//Identify scale of x
+	/*double xScale = 0.;
+	for(long t=0; t<tCount; t++)
+	{
+		for(long f=0; f<fCount; f++)
+		{
+			xScale += x->data[t][f];
+		}
+	}*/
+	double xScale = x->sum();
+
+	//Iteratively improve estimates
+	double lastDistance = numeric_limits<double>::max();
+	while(true)
+	{
+		//Compute matrix multiplications for multiplicative updates
+		Eigen::MatrixXd mixSource = mix * source;
+		Eigen::MatrixXd mixModNumerator = (*x) * source.transpose();
+		Eigen::MatrixXd mixModDenominator = mixSource * source.transpose();
+		Eigen::MatrixXd sourceModNumerator = mix.transpose() * (*x);
+		Eigen::MatrixXd sourceModDenominator = mix.transpose() * mixSource;
+
+		//Perform multiplicative updates
+		for(long t=0; t<tCount; t++)
+		{
+			for(long i=0; i<n; i++)
+			{
+				if (mixModDenominator(t, i) == 0)
+				{
+					mixModDenominator(t, i) = numeric_limits<double>::lowest();
+				}
+				mix(t, i) *= mixModNumerator(t, i) / mixModDenominator(t, i);
+			}
+		}
+		for(long i=0; i<n; i++)
+		{
+			for(long f=0; f<fCount; f++)
+			{
+				if (sourceModDenominator(i, f) == 0)
+				{
+					sourceModDenominator(i, f) = 1e-307;
+				}
+				source(i, f) *= sourceModNumerator(i, f) / sourceModDenominator(i, f);
+			}
+		}
+
+		//Identify scales of current estimate of x
+		Eigen::MatrixXd currentEstimate = mix * source;
+		double eScale = 0.;
+		for(long t=0; t<tCount; t++)
+		{
+			for(long f=0; f<fCount; f++)
+			{
+				eScale += currentEstimate(t, f);
+			}
+		}
+
+		//Calculate Euclidean squared distance between x and estimate, considering scales
+		double distance = 0.;
+		for(long t=0; t<tCount; t++)
+		{
+			for(long f=0; f<fCount; f++)
+			{
+				distance += pow(((*x)(t, f) / xScale) - (currentEstimate(t, f) / eScale), 2);
+			}
+			for(long i=0; i<n; i++)
+			{
+				mix(t, i) *= xScale / eScale;
+			}
+		}
+
+		//Stop iterating if making little progress
+		if(lastDistance - distance < nmfStepThreshold)
+		{
+			break;
+		}
+		lastDistance = distance;
+	}
+
+	//Compile return value
+	vector<Eigen::MatrixXd>* retVal = new vector<Eigen::MatrixXd>();
 	retVal->push_back(mix);
 	retVal->push_back(source);
 

@@ -18,6 +18,9 @@ public:
 	static double distanceWeightStereo;
 	static double distanceWeightOnset;
 	static double distanceMissPenalty;
+	static double distanceMissPenaltyFreq;
+	static double distanceMissPenaltyAmp;
+	static double distanceMissPenaltyStereo;
 	vector<SinusoidalTrajectoryPoint> data;
 	long startIndex;
 	long endIndex;

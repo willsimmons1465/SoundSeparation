@@ -1,6 +1,6 @@
 #include "SinusoidalModelSeparation.h"
 #include "Cluster.h"
-#include "Matrix.h"
+//#include "Matrix.h"
 #include "SinusoidalTrajectory.h"
 #include "SinusoidalTrajectoryPoint.h"
 #include "Transform.h"
@@ -48,11 +48,38 @@ vector<double>* peakPositions(vector<double>* values)
 	return retVal;
 }
 
+vector<double>* peakPositions(Eigen::VectorXd* values)
+{
+	vector<double>* retVal = new vector<double>();
+	double prev = 0.;
+	double current = (*values)(0, 0);
+	double next = (*values)(1, 0);
+	for(long i=2; i<values->size(); i++)
+	{
+		prev = current;
+		current = next;
+		next = (*values)(i, 0);
+		if(current > prev && current > next)
+		{
+			retVal->push_back(i-1+quadraticFitTurningPoint(prev, current, next));
+		}
+	}
+
+	return retVal;
+}
+
 double approxPowerAroundPosition(vector<double>* values, double position)
 {
 	long lPos = (long) position;
 	double part = position-lPos;
 	return (1-part)*(*values)[lPos]*(*values)[lPos] + part*(*values)[lPos+1]*(*values)[lPos+1];
+}
+
+double approxPowerAroundPosition(Eigen::VectorXd* values, double position)
+{
+	long lPos = (long) position;
+	double part = position-lPos;
+	return (1-part)*(*values)(lPos, 0)*(*values)(lPos, 0) + part*(*values)(lPos+1, 0)*(*values)(lPos+1, 0);
 }
 
 double approxPowerAroundPosition(vector<complex<double>>* values, double position)
@@ -62,7 +89,21 @@ double approxPowerAroundPosition(vector<complex<double>>* values, double positio
 	return (1-part)*norm((*values)[lPos]) + part*norm((*values)[lPos+1]);
 }
 
+double approxPowerAroundPosition(Eigen::VectorXcd* values, double position)
+{
+	long lPos = (long) position;
+	double part = position-lPos;
+	return (1-part)*norm((*values)(lPos, 0)) + part*norm((*values)(lPos+1, 0));
+}
+
 double stereoScaleAroundPosition(vector<complex<double>>* left, vector<complex<double>>* right, double position)
+{
+	double lPower = approxPowerAroundPosition(left, position);
+	double rPower = approxPowerAroundPosition(right, position);
+	return lPower / (lPower + rPower);
+}
+
+double stereoScaleAroundPosition(Eigen::VectorXcd* left, Eigen::VectorXcd* right, double position)
 {
 	double lPower = approxPowerAroundPosition(left, position);
 	double rPower = approxPowerAroundPosition(right, position);
@@ -72,22 +113,23 @@ double stereoScaleAroundPosition(vector<complex<double>>* left, vector<complex<d
 vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<double>* lSampleVector, vector<double>* rSampleVector, int numOfSources)
 {
 	//Obtain spectra
-	Matrix<complex<double>>* lSpectrum = Transform::stft(lSampleVector, windowSize, hopSize, nfft);
-	Matrix<complex<double>>* rSpectrum = Transform::stft(rSampleVector, windowSize, hopSize, nfft);
+	Eigen::MatrixXcd* lSpectrum = Transform::stft(lSampleVector, windowSize, hopSize, nfft);
+	Eigen::MatrixXcd* rSpectrum = Transform::stft(rSampleVector, windowSize, hopSize, nfft);
 
 	//Get sizes
-	long tCount = lSpectrum->data.size();
-	long fCount = lSpectrum->data[0].size();
+	long tCount = lSpectrum->rows();
+	long fCount = lSpectrum->cols();
 
 	//Get overall power spectrum
-	Matrix<double> absSpec = Matrix<double>(tCount,fCount);
+	/*Eigen::MatrixXd absSpec = Eigen::MatrixXd(tCount,fCount);
 	for(long t=0; t<tCount; t++)
 	{
 		for(long f=0; f<fCount; f++)
 		{
-			absSpec.data[t][f] = norm(lSpectrum->data[t][f]) + norm(rSpectrum->data[t][f]);
+			absSpec(t, f) = norm((*lSpectrum)(t, f)) + norm((*rSpectrum)(t, f));
 		}
-	}
+	}*/
+	Eigen::MatrixXd absSpec = (lSpectrum->cwiseAbs2() + rSpectrum->cwiseAbs2());
 	
 	//cout << "Power spectrum obtained" << endl;
 
@@ -97,14 +139,15 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 	double minRowMax = numeric_limits<double>::max();
 	for(long f=0; f<fCount; f++)
 	{
-		double rowMax = numeric_limits<double>::min();
+		/*double rowMax = numeric_limits<double>::min();
 		for(long t=0; t<tCount; t++)
 		{
-			if(rowMax < absSpec.data[t][f])
+			if(rowMax < absSpec(t, f))
 			{
-				rowMax = absSpec.data[t][f];
+				rowMax = absSpec(t, f);
 			}
-		}
+		}*/
+		double rowMax = absSpec.col(f).maxCoeff();
 		if(minRowMax > rowMax)
 		{
 			minRowMax = rowMax;
@@ -112,18 +155,19 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 	}
 
 	//--Calculate threshold to eliminate noise
-	const double threshold = minRowMax * 2000000.;
+	//const double threshold = minRowMax * 2000000.;
 	//const double threshold = minRowMax * 100000.;
 	//const double threshold = minRowMax * 100.;
+	const double threshold = minRowMax * 10000;
 
 	//--Threshold power spectrum
 	for(long t=0; t<tCount; t++)
 	{
 		for(long f=0; f<fCount; f++)
 		{
-			if(threshold > absSpec.data[t][f])
+			if(threshold > absSpec(t, f))
 			{
-				absSpec.data[t][f] = 0;
+				absSpec(t, f) = 0;
 			}
 		}
 	}
@@ -134,15 +178,21 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 	vector<SinusoidalTrajectory> sins = vector<SinusoidalTrajectory>();
 	for(long t=0; t<tCount; t++)
 	{
+		//vector<double> frame = vector<double>(absSpec.row(t).data(), absSpec.row(t).data() + fCount);
+		//vector<complex<double>> lframe = vector<complex<double>>(lSpectrum->row(t).data(), lSpectrum->row(t).data() + fCount);
+		//vector<complex<double>> rframe = vector<complex<double>>(rSpectrum->row(t).data(), rSpectrum->row(t).data() + fCount);
 		//Find local peak frequencies for current time frame
-		vector<double>* peakPos = peakPositions(&(absSpec.data[t]));
+		Eigen::VectorXd frame = absSpec.row(t);
+		Eigen::VectorXcd lframe = lSpectrum->row(t);
+		Eigen::VectorXcd rframe = rSpectrum->row(t);
+		vector<double>* peakPos = peakPositions(&frame);
 		for(long i=0; i<peakPos->size(); i++)
 		{
 			//Create a trajectory point for each peak
 			double p = (*peakPos)[i];
-			SinusoidalTrajectoryPoint point(approxPowerAroundPosition(&(absSpec.data[t]),p),
+			SinusoidalTrajectoryPoint point(approxPowerAroundPosition(&frame,p),
 				p,
-				stereoScaleAroundPosition(&(lSpectrum->data[t]), &(rSpectrum->data[t]), p));
+				stereoScaleAroundPosition(&lframe, &rframe, p));
 			
 			//Extend an existing trajectory if possible
 			bool newSin = true;
@@ -198,26 +248,26 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 			d.data[i][j] = SinusoidalTrajectory::distance(sins[i], sins[j], minFreq);
 		}
 	}*/
-	Matrix<double> d = Matrix<double>(numOfSins, numOfSins*6);
+	Eigen::MatrixXd d = Eigen::MatrixXd(numOfSins, numOfSins*6);
 	for(long i=0; i<numOfSins; i++)
 	{
 		for(long j=i; j<numOfSins; j++)
 		{
-			d.data[i][6*j] = SinusoidalTrajectory::distanceHarm(sins[i], sins[j], minFreq);
-			d.data[i][6*j+1] = SinusoidalTrajectory::distanceStereo(sins[i], sins[j]);
-			d.data[i][6*j+2] = SinusoidalTrajectory::distanceOnset(sins[i], sins[j]);
-			d.data[i][6*j+3] = SinusoidalTrajectory::distanceMiss(sins[i], sins[j]);
-			d.data[i][6*j+4] = SinusoidalTrajectory::distanceAmp(sins[i], sins[j]);
-			d.data[i][6*j+5] = SinusoidalTrajectory::distanceFreq(sins[i], sins[j]);
+			d(i, 6*j) = SinusoidalTrajectory::distanceHarm(sins[i], sins[j], minFreq);
+			d(i, 6*j+1) = SinusoidalTrajectory::distanceStereo(sins[i], sins[j]);
+			d(i, 6*j+2) = SinusoidalTrajectory::distanceOnset(sins[i], sins[j]);
+			d(i, 6*j+3) = SinusoidalTrajectory::distanceMiss(sins[i], sins[j]);
+			d(i, 6*j+4) = SinusoidalTrajectory::distanceAmp(sins[i], sins[j]);
+			d(i, 6*j+5) = SinusoidalTrajectory::distanceFreq(sins[i], sins[j]);
 
 			if(j!=i)
 			{
-				d.data[j][6*i] = d.data[i][6*j];
-				d.data[j][6*i+1] = d.data[i][6*j+1];
-				d.data[j][6*i+2] = d.data[i][6*j+2];
-				d.data[j][6*i+3] = d.data[i][6*j+3];
-				d.data[j][6*i+4] = d.data[i][6*j+4];
-				d.data[j][6*i+5] = d.data[i][6*j+5];
+				d(j, 6*i) = d(i, 6*j);
+				d(j, 6*i+1) = d(i, 6*j+1);
+				d(j, 6*i+2) = d(i, 6*j+2);
+				d(j, 6*i+3) = d(i, 6*j+3);
+				d(j, 6*i+4) = d(i, 6*j+4);
+				d(j, 6*i+5) = d(i, 6*j+5);
 			}
 		}
 	}
@@ -288,24 +338,24 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 
 	//Matrix<double>* clusterWeights = Cluster::softKCluster(&(d.data), numOfSources, 0.00001);
 
-	Matrix<double>* clusterWeights = Cluster::softKCluster(&(d.data), numOfSources, softClusterStiffness);
+	Eigen::MatrixXd* clusterWeights = Cluster::softKCluster(&d, numOfSources, softClusterStiffness);
 	double max = 0;
 	for (int i=0; i<numOfSins; i++)
 		{
 			for (int s=0; s<numOfSources; s++)
 			{
-				max += clusterWeights->data[i][s] * clusterWeights->data[i][s];
+				max += (*clusterWeights)(i, s) * (*clusterWeights)(i, s);
 			}
 		}
 	for (int r=0; r<10; r++)
 	{
-		Matrix<double>* clusterWeightsTry = Cluster::softKCluster(&(d.data), numOfSources, softClusterStiffness);
+		Eigen::MatrixXd* clusterWeightsTry = Cluster::softKCluster(&d, numOfSources, softClusterStiffness);
 		double sum = 0.;
 		for (int i=0; i<numOfSins; i++)
 		{
 			for (int s=0; s<numOfSources; s++)
 			{
-				sum += clusterWeightsTry->data[i][s] * clusterWeightsTry->data[i][s];
+				sum += (*clusterWeightsTry)(i, s) * (*clusterWeightsTry)(i, s);
 			}
 		}
 		if (max < sum)
@@ -386,13 +436,13 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 	}*/
 
 	vector<vector<vector<double>>>* retVal = new vector<vector<vector<double>>>();
-	vector<Matrix<complex<double>>> lSoundSpecs = vector<Matrix<complex<double>>>();
-	vector<Matrix<complex<double>>> rSoundSpecs = vector<Matrix<complex<double>>>();
+	vector<Eigen::MatrixXcd> lSoundSpecs = vector<Eigen::MatrixXcd>();
+	vector<Eigen::MatrixXcd> rSoundSpecs = vector<Eigen::MatrixXcd>();
 	for(int s=0; s<numOfSources; s++)
 	{
 		//Initialise spectra as zero-matrices
-		lSoundSpecs.push_back(Matrix<complex<double>>(tCount, fCount));
-		rSoundSpecs.push_back(Matrix<complex<double>>(tCount, fCount));
+		lSoundSpecs.push_back(Eigen::MatrixXcd::Zero(tCount, fCount));
+		rSoundSpecs.push_back(Eigen::MatrixXcd::Zero(tCount, fCount));
 
 		//Add peaks from trajectories in the current cluster
 		for(long i=0; i<numOfSins; i++)
@@ -400,10 +450,10 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 			for(long t=sins[i].startIndex; t<=sins[i].endIndex; t++)
 			{
 				long freq = (long) sins[i].data[t-sins[i].startIndex].trueFreq;
-				lSoundSpecs[s].data[t][freq] = lSpectrum->data[t][freq] * clusterWeights->data[i][s];
-				lSoundSpecs[s].data[t][freq+1] = lSpectrum->data[t][freq+1] * clusterWeights->data[i][s];
-				rSoundSpecs[s].data[t][freq] = rSpectrum->data[t][freq] * clusterWeights->data[i][s];
-				rSoundSpecs[s].data[t][freq+1] = rSpectrum->data[t][freq+1] * clusterWeights->data[i][s];
+				lSoundSpecs[s](t, freq) = (*lSpectrum)(t, freq) * (*clusterWeights)(i, s);
+				lSoundSpecs[s](t, freq+1) = (*lSpectrum)(t, freq+1) * (*clusterWeights)(i, s);
+				rSoundSpecs[s](t, freq) = (*rSpectrum)(t, freq) * (*clusterWeights)(i, s);
+				rSoundSpecs[s](t, freq+1) = (*rSpectrum)(t, freq+1) * (*clusterWeights)(i, s);
 				/*lSoundSpecs[s].data[t][freq] = lSpectrum->data[t][freq] * nmfResults->at(0).data[i][s];
 				lSoundSpecs[s].data[t][freq+1] = lSpectrum->data[t][freq+1] * nmfResults->at(0).data[i][s];
 				rSoundSpecs[s].data[t][freq] = rSpectrum->data[t][freq] * nmfResults->at(0).data[i][s];
@@ -411,36 +461,42 @@ vector<vector<vector<double>>>* SinusoidalModelSeparation::separate(vector<doubl
 			}
 		}
 
-		for(long t=0; t<tCount; t++)
+		(*lSpectrum) -= lSoundSpecs[s];
+		(*rSpectrum) -= rSoundSpecs[s];
+		/*for(long t=0; t<tCount; t++)
 		{
 			for(long f=0; f<fCount; f++)
 			{
-				lSpectrum->data[t][f] -= lSoundSpecs[s].data[t][f];
-				rSpectrum->data[t][f] -= rSoundSpecs[s].data[t][f];
+				(*lSpectrum)(t, f) -= lSoundSpecs[s](t, f);
+				(*rSpectrum)(t, f) -= rSoundSpecs[s](t, f);
 			}
-		}
+		}*/
 	}
 
 	for(int s=0; s<numOfSources; s++)
 	{
-		for(long t=0; t<tCount; t++)
+		/*for(long t=0; t<tCount; t++)
 		{
 			for(long f=0; f<fCount; f++)
 			{
 				lSoundSpecs[s].data[t][f] += lSpectrum->data[t][f] / (double) numOfSources;
 				rSoundSpecs[s].data[t][f] += rSpectrum->data[t][f] / (double) numOfSources;
 			}
-		}
+		}*/
+		/*lSoundSpecs[s] += (*lSpectrum) / (double) numOfSources;
+		rSoundSpecs[s] += (*rSpectrum) / (double) numOfSources;*/
 
 		//Calculate the samples from the spectra
-		vector<double>* lSamples = Transform::istft(&(lSoundSpecs[s]), hopSize);
-		vector<double>* rSamples = Transform::istft(&(rSoundSpecs[s]), hopSize);
+		Eigen::VectorXd* lVector = Transform::istft(&(lSoundSpecs[s]), hopSize);
+		Eigen::VectorXd* rVector = Transform::istft(&(rSoundSpecs[s]), hopSize);
+		vector<double> lSamples = vector<double>(lVector->data(), lVector->data() + lVector->size());
+		vector<double> rSamples = vector<double>(rVector->data(), rVector->data() + rVector->size());
 		retVal->push_back(vector<vector<double>>());
-		retVal->back().push_back(vector<double>(*lSamples));
-		retVal->back().push_back(vector<double>(*rSamples));
+		retVal->back().push_back(vector<double>(lSamples));
+		retVal->back().push_back(vector<double>(rSamples));
 
-		delete lSamples;
-		delete rSamples;
+		delete lVector;
+		delete rVector;
 	}
 
 	//Clean up
