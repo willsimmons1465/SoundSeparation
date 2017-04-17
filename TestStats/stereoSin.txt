@@ -1,0 +1,32 @@
+19
+stereoPos = 0.5
+SDR = -3.7574
+SIR = 27.4242
+SAR = -3.64098
+19
+stereoPos = 0.6
+SDR = -3.75786
+SIR = 27.5744
+SAR = -3.64127
+18
+stereoPos = 0.7
+SDR = -4.86925
+SIR = 24.2492
+SAR = -4.72801
+18
+stereoPos = 0.8
+SDR = -4.86207
+SIR = 24.8713
+SAR = -4.72297
+18
+stereoPos = 0.9
+SDR = -4.87175
+SIR = 26.0712
+SAR = -4.73053
+17
+stereoPos = 1
+SDR = -6.22601
+SIR = 23.8656
+SAR = -6.07229
+
+threshold = 2.5e21

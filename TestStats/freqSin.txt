@@ -1,0 +1,32 @@
+12
+offset = 0Hz
+SDR = 11.6676
+SIR = 13.1501
+SAR = 17.5439
+15
+offset = 10Hz
+SDR = -22.0517
+SIR = -4.27103
+SAR = -2.13721
+13
+offset = 20Hz
+SDR = -13.0079
+SIR = 7.80673
+SAR = -2.83289
+13
+offset = 30Hz
+SDR = 11.7505
+SIR = 31.6438
+SAR = 11.8272
+13
+offset = 40Hz
+SDR = 12.8779
+SIR = 39.8788
+SAR = 12.9008
+13
+offset = 50Hz
+SDR = 14.0428
+SIR = 51.8908
+SAR = 14.0622
+
+threshold = 2.5e21

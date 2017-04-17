@@ -1,0 +1,27 @@
+26
+offset = 0ms
+SDR = -12.3959
+SIR = 17.6314
+SAR = -11.7158
+29
+offset = 50ms
+SDR = -7.41124
+SIR = 16.3814
+SAR = -4.53312
+28
+offset = 100ms
+SDR = -7.16866
+SIR = 17.3437
+SAR = -4.62139
+27
+offset = 150ms
+SDR = -8.21264
+SIR = 19.0665
+SAR = -5.57893
+26
+offset = 200ms
+SDR = -7.71807
+SIR = 20.2695
+SAR = -5.11637
+
+threshold = 2.5e21

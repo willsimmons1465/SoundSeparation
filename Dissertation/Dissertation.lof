@@ -2,7 +2,16 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Separation performance against the number of features extracted per sound. For the matrix factors, the same number of features were extracted on every input from the set, whereas with sinusoidal trajectories the threshold was constant, giving a range of actual sinusoid quantities so the average was taken.}}{17}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Separation performance against the number of sounds in the mix. These values were taken over a single example where a complex auditory scene was gradually built up (so the sounds used in each test were also present in all later tests).}}{18}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Separation performance against clustering method when using sinusoidal trajectories for the sound elements. These were obtained with only a single test for the soft and NMF clustering options rather than multiple times and taking the ``hardest''.}}{19}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Separation performance against clustering method when using matrix factors for the sound elements.}}{19}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces A comparison of the separation performance with and without the reversibility property enforced for each choice of sound element (Sinusoidal trajectories or Matrix Factors).}}{20}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Noise reduction at different levels when using both feature options. The standard test set was used but a sample of white noise is added. Since the amplitude of the individual instrument samples vary, the SNR will vary over the inputs and so was averaged for each level of noise.}}{21}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Separation performance against the stereo distance between the sounds in the input. These were obtained by using the standard test set but with fixed, as opposed to randomly selected, stereo positions. The stereo position value for a given sound is the proportion of its power routed through the left channel and the distance is the absolute difference between the stereo positions of the two sounds, so $ 0 $ corresponds to the sounds having the same stereo position and $ 1 $ means that they are maximally separated (one is entirely in the left channel and the other is entirely in the right channel).}}{22}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Separation performance against frequency offset between the sounds. The inputs to this were a $ 465 $Hz square wave and a sine wave at some slightly higher frequency.}}{23}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Separation performance against pitch offset between the sounds. The input here was a combination of two square waves; one at $ 465 $Hz (approximately corresponding to the MIDI note $ \mathrm {A}^\sharp 4 $) and the other at some number of semitones above.}}{23}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Separation performance against time offset. Two instrument samples were selected from the collection and aligned such that they appeared to be played at the same time. One was then progressively delayed to give the different test inputs.}}{24}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

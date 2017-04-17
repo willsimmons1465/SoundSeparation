@@ -23,6 +23,10 @@ J.~Hadamard, ``Sur les probl{\`e}mes aux d{\'e}riv{\'e}es partielles et leur
   signification physique,'' {\em Princeton university bulletin}, vol.~13,
   no.~49-52, p.~28, 1902.
 
+\bibitem{noll1967cepstrum}
+A.~M. Noll, ``Cepstrum pitch determination,'' {\em The journal of the
+  acoustical society of America}, vol.~41, no.~2, pp.~293--309, 1967.
+
 \bibitem{melodyne}
 C.~S. GmbH, ``Celemony,'' 2017.
 
@@ -47,5 +51,21 @@ M.~Frigo, ``Fftw,'' 2017.
 D.~D. Lee and H.~S. Seung, ``Algorithms for non-negative matrix
   factorization,'' in {\em Advances in neural information processing systems},
   pp.~556--562, 2001.
+
+\bibitem{vincent2006performance}
+E.~Vincent, R.~Gribonval, and C.~F{\'e}votte, ``Performance measurement in
+  blind audio source separation,'' {\em IEEE transactions on audio, speech, and
+  language processing}, vol.~14, no.~4, pp.~1462--1469, 2006.
+
+\bibitem{virtanen2003algorithm}
+T.~Virtanen, ``Algorithm for the separation of harmonic sounds with
+  time-frequency smoothness constraint,'' in {\em Proc. Int. Conf. on Digital
+  Audio Effects (DAFx)}, pp.~35--40, 2003.
+
+\bibitem{badeau2011gaussian}
+R.~Badeau, ``Gaussian modeling of mixtures of non-stationary signals in the
+  time-frequency domain (hr-nmf),'' in {\em Applications of Signal Processing
+  to Audio and Acoustics (WASPAA), 2011 IEEE Workshop on}, pp.~253--256, IEEE,
+  2011.
 
 \end{thebibliography}

@@ -1,0 +1,62 @@
+20
+offset = 1
+SDR = 12.2914
+SIR = 46.8706
+SAR = 12.3044
+20
+offset = 2
+SDR = 11.3415
+SIR = 44.3454
+SAR = 11.3646
+38
+offset = 3
+SDR = -12.6351
+SIR = 3.77146
+SAR = -7.00163
+20
+offset = 4
+SDR = 7.63
+SIR = 53.7493
+SAR = 7.73812
+25
+offset = 5
+SDR = 12.9158
+SIR = 29.5736
+SAR = 13.0159
+24
+offset = 6
+SDR = -13.2697
+SIR = -1.43181
+SAR = -4.0923
+23
+offset = 7
+SDR = 7.92802
+SIR = 47.0326
+SAR = 8.19042
+30
+offset = 8
+SDR = -13.1779
+SIR = 3.28328
+SAR = -4.01707
+32
+offset = 9
+SDR = 9.32041
+SIR = 37.3218
+SAR = 9.55451
+19
+offset = 10
+SDR = 7.96458
+SIR = 42.3604
+SAR = 8.22553
+30
+offset = 11
+SDR = 7.93154
+SIR = 57.2637
+SAR = 8.22093
+20
+offset = 12
+SDR = -13.0783
+SIR = 2.87205
+SAR = -4.41633
+
+threshold = 2.5e21

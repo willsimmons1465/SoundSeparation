@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.10.14)  29 MAR 2017 15:28
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.10.14)  15 APR 2017 19:36
 entering extended mode
 **Dissertation.tex
 
@@ -36,24 +36,123 @@ File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\ntgclass\a4.sty"
 Package: a4 2004/04/15 v1.2g A4 based page layout
 )
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count88
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf.sty"
+Package: epstopdf 2010/02/09 v2.5 Conversion with epstopdf on the fly (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty"
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty"
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifluatex.sty"
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\epsfig.sty"
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+\epsfxsize=\dimen105
+\epsfysize=\dimen106
+)
 ("C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Dissertation\Di
 ssertation.aux")
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+ ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count89
+\scratchdimen=\dimen107
+\scratchbox=\box26
+\nofMPsegments=\count90
+\nofMParguments=\count91
+\everyMPshowfont=\toks15
+\MPscratchCnt=\count92
+\MPscratchDim=\dimen108
+\MPnumerator=\count93
+\makeMPintoPDFobject=\count94
+\everyMPtoPDFconversion=\toks16
+)
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 27.
+(Font)              <7> on input line 30.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 27.
+(Font)              <5> on input line 30.
  [1
 
 
@@ -69,15 +168,17 @@ ssertation.toc")
 
 ]
 ("C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Dissertation\Di
-ssertation.lof")
+ssertation.lof"
+Overfull \hbox (5.5951pt too wide) in paragraph at lines 11--11
+ [][] []\OT1/cmr/m/n/10 Separation per-for-mance against the stereo dis-tance b
+e-tween the sounds 
+ []
+
+)
 \tf@lof=\write4
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
  [5
 
-]
-[6]
+] [6]
 Chapter 1.
 [1
 
@@ -88,7 +189,7 @@ Chapter 2.
 ] [5] [6] [7] [8]
 Chapter 3.
 
-Overfull \hbox (121.623pt too wide) in paragraph at lines 197--209
+Overfull \hbox (121.623pt too wide) in paragraph at lines 200--212
 [][] 
  []
 
@@ -99,36 +200,235 @@ Chapter 4.
 [16
 
 ]
-Chapter 5.
-[17
+Package epstopdf Info: Source file: <./FeatureCompPlot.eps>
+(epstopdf)                    date: 2017-04-06 11:58:21
+(epstopdf)                    size: 24499 bytes
+(epstopdf)             Output file: <./FeatureCompPlot-eps-converted-to.pdf>
+(epstopdf)                    date: 2017-04-06 17:00:40
+(epstopdf)                    size: 4246 bytes
+(epstopdf)             Command: <epstopdf --outfile=./FeatureCompPlot-eps-conve
+rted-to.pdf ./FeatureCompPlot.eps>
+(epstopdf)             \includegraphics on input line 373.
+Package epstopdf Info: Output file is already uptodate.
+ <./FeatureCompPlot-eps-converted-to.pdf, id=85, 421.575pt x 316.18124pt>
+File: ./FeatureCompPlot-eps-converted-to.pdf Graphic file (type pdf)
 
-]
+<use ./FeatureCompPlot-eps-converted-to.pdf>
+Package pdftex.def Info: ./FeatureCompPlot-eps-converted-to.pdf used on input l
+ine 373.
+(pdftex.def)             Requested size: 252.94388pt x 189.7102pt.
+Package epstopdf Info: Source file: <./FeatureKGraph.eps>
+(epstopdf)                    date: 2017-04-06 12:04:52
+(epstopdf)                    size: 24907 bytes
+(epstopdf)             Output file: <./FeatureKGraph-eps-converted-to.pdf>
+(epstopdf)                    date: 2017-04-06 18:26:58
+(epstopdf)                    size: 4163 bytes
+(epstopdf)             Command: <epstopdf --outfile=./FeatureKGraph-eps-convert
+ed-to.pdf ./FeatureKGraph.eps>
+(epstopdf)             \includegraphics on input line 380.
+Package epstopdf Info: Output file is already uptodate.
+
+<./FeatureKGraph-eps-converted-to.pdf, id=86, 421.575pt x 316.18124pt>
+File: ./FeatureKGraph-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./FeatureKGraph-eps-converted-to.pdf>
+Package pdftex.def Info: ./FeatureKGraph-eps-converted-to.pdf used on input lin
+e 380.
+(pdftex.def)             Requested size: 252.94388pt x 189.7102pt.
+ [17 <C:/Users/Will/OneDrive/Uni/Individual Project/SoundSeparation/Dissertatio
+n/FeatureCompPlot-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <./ClusteringCompBoxPlotsSin.eps>
+(epstopdf)                    date: 2017-04-06 12:23:31
+(epstopdf)                    size: 26218 bytes
+(epstopdf)             Output file: <./ClusteringCompBoxPlotsSin-eps-converted-
+to.pdf>
+(epstopdf)                    date: 2017-04-06 17:00:41
+(epstopdf)                    size: 4703 bytes
+(epstopdf)             Command: <epstopdf --outfile=./ClusteringCompBoxPlotsSin
+-eps-converted-to.pdf ./ClusteringCompBoxPlotsSin.eps>
+(epstopdf)             \includegraphics on input line 399.
+Package epstopdf Info: Output file is already uptodate.
+
+<./ClusteringCompBoxPlotsSin-eps-converted-to.pdf, id=94, 421.575pt x 316.18124
+pt>
+File: ./ClusteringCompBoxPlotsSin-eps-converted-to.pdf Graphic file (type pdf)
+ <use ./ClusteringCompBoxPlotsSin-eps-converted-to.pdf>
+Package pdftex.def Info: ./ClusteringCompBoxPlotsSin-eps-converted-to.pdf used 
+on input line 399.
+(pdftex.def)             Requested size: 252.94388pt x 189.7102pt.
+Package epstopdf Info: Source file: <./ClusteringCompBoxPlotsMat.eps>
+(epstopdf)                    date: 2017-04-06 12:23:47
+(epstopdf)                    size: 22498 bytes
+(epstopdf)             Output file: <./ClusteringCompBoxPlotsMat-eps-converted-
+to.pdf>
+(epstopdf)                    date: 2017-04-06 17:00:41
+(epstopdf)                    size: 4387 bytes
+(epstopdf)             Command: <epstopdf --outfile=./ClusteringCompBoxPlotsMat
+-eps-converted-to.pdf ./ClusteringCompBoxPlotsMat.eps>
+(epstopdf)             \includegraphics on input line 406.
+Package epstopdf Info: Output file is already uptodate.
+
+<./ClusteringCompBoxPlotsMat-eps-converted-to.pdf, id=95, 421.575pt x 316.18124
+pt>
+File: ./ClusteringCompBoxPlotsMat-eps-converted-to.pdf Graphic file (type pdf)
+ <use ./ClusteringCompBoxPlotsMat-eps-converted-to.pdf>
+Package pdftex.def Info: ./ClusteringCompBoxPlotsMat-eps-converted-to.pdf used 
+on input line 406.
+(pdftex.def)             Requested size: 252.94388pt x 189.7102pt.
+ [18 <C:/Users/Will/OneDrive/Uni/Individual Project/SoundSeparation/Dissertatio
+n/FeatureKGraph-eps-converted-to.pdf>] [19 <C:/Users/Will/OneDrive/Uni/Individu
+al Project/SoundSeparation/Dissertation/ClusteringCompBoxPlotsSin-eps-converted
+-to.pdf> <C:/Users/Will/OneDrive/Uni/Individual Project/SoundSeparation/Dissert
+ation/ClusteringCompBoxPlotsMat-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <./ReversibleCompBoxPlots.eps>
+(epstopdf)                    date: 2017-04-06 12:25:34
+(epstopdf)                    size: 26825 bytes
+(epstopdf)             Output file: <./ReversibleCompBoxPlots-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2017-04-06 17:00:42
+(epstopdf)                    size: 4719 bytes
+(epstopdf)             Command: <epstopdf --outfile=./ReversibleCompBoxPlots-ep
+s-converted-to.pdf ./ReversibleCompBoxPlots.eps>
+(epstopdf)             \includegraphics on input line 427.
+Package epstopdf Info: Output file is already uptodate.
+
+<./ReversibleCompBoxPlots-eps-converted-to.pdf, id=115, 421.575pt x 316.18124pt
+>
+File: ./ReversibleCompBoxPlots-eps-converted-to.pdf Graphic file (type pdf)
+ <use ./ReversibleCompBoxPlots-eps-converted-to.pdf>
+Package pdftex.def Info: ./ReversibleCompBoxPlots-eps-converted-to.pdf used on 
+input line 427.
+(pdftex.def)             Requested size: 252.94388pt x 189.7102pt.
+
+Underfull \vbox (badness 3557) has occurred while \output is active []
+
+ [20 <C:/Users/Will/OneDrive/Uni/Individual Project/SoundSeparation/Dissertatio
+n/ReversibleCompBoxPlots-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <./NoisePlot.eps>
+(epstopdf)                    date: 2017-04-06 22:32:36
+(epstopdf)                    size: 18408 bytes
+(epstopdf)             Output file: <./NoisePlot-eps-converted-to.pdf>
+(epstopdf)                    date: 2017-04-07 18:16:06
+(epstopdf)                    size: 3813 bytes
+(epstopdf)             Command: <epstopdf --outfile=./NoisePlot-eps-converted-t
+o.pdf ./NoisePlot.eps>
+(epstopdf)             \includegraphics on input line 452.
+Package epstopdf Info: Output file is already uptodate.
+
+<./NoisePlot-eps-converted-to.pdf, id=123, 421.575pt x 316.18124pt>
+File: ./NoisePlot-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./NoisePlot-eps-converted-to.pdf>
+Package pdftex.def Info: ./NoisePlot-eps-converted-to.pdf used on input line 45
+2.
+(pdftex.def)             Requested size: 252.94388pt x 189.7102pt.
+Package epstopdf Info: Source file: <./StereoPlots.eps>
+(epstopdf)                    date: 2017-04-06 16:45:27
+(epstopdf)                    size: 27816 bytes
+(epstopdf)             Output file: <./StereoPlots-eps-converted-to.pdf>
+(epstopdf)                    date: 2017-04-06 17:00:43
+(epstopdf)                    size: 4166 bytes
+(epstopdf)             Command: <epstopdf --outfile=./StereoPlots-eps-converted
+-to.pdf ./StereoPlots.eps>
+(epstopdf)             \includegraphics on input line 469.
+Package epstopdf Info: Output file is already uptodate.
+
+<./StereoPlots-eps-converted-to.pdf, id=124, 421.575pt x 316.18124pt>
+File: ./StereoPlots-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./StereoPlots-eps-converted-to.pdf>
+Package pdftex.def Info: ./StereoPlots-eps-converted-to.pdf used on input line 
+469.
+(pdftex.def)             Requested size: 252.94388pt x 189.7102pt.
+ [21 <C:/Users/Will/OneDrive/Uni/Individual Project/SoundSeparation/Dissertatio
+n/NoisePlot-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <./FrequencyPlot.eps>
+(epstopdf)                    date: 2017-04-06 15:37:18
+(epstopdf)                    size: 21665 bytes
+(epstopdf)             Output file: <./FrequencyPlot-eps-converted-to.pdf>
+(epstopdf)                    date: 2017-04-06 17:00:43
+(epstopdf)                    size: 4140 bytes
+(epstopdf)             Command: <epstopdf --outfile=./FrequencyPlot-eps-convert
+ed-to.pdf ./FrequencyPlot.eps>
+(epstopdf)             \includegraphics on input line 482.
+Package epstopdf Info: Output file is already uptodate.
+
+<./FrequencyPlot-eps-converted-to.pdf, id=132, 421.575pt x 316.18124pt>
+File: ./FrequencyPlot-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./FrequencyPlot-eps-converted-to.pdf>
+Package pdftex.def Info: ./FrequencyPlot-eps-converted-to.pdf used on input lin
+e 482.
+(pdftex.def)             Requested size: 252.94388pt x 189.7102pt.
+Package epstopdf Info: Source file: <./PitchPlot.eps>
+(epstopdf)                    date: 2017-04-06 15:58:20
+(epstopdf)                    size: 19073 bytes
+(epstopdf)             Output file: <./PitchPlot-eps-converted-to.pdf>
+(epstopdf)                    date: 2017-04-06 17:00:44
+(epstopdf)                    size: 3951 bytes
+(epstopdf)             Command: <epstopdf --outfile=./PitchPlot-eps-converted-t
+o.pdf ./PitchPlot.eps>
+(epstopdf)             \includegraphics on input line 493.
+Package epstopdf Info: Output file is already uptodate.
+
+<./PitchPlot-eps-converted-to.pdf, id=133, 421.575pt x 316.18124pt>
+File: ./PitchPlot-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./PitchPlot-eps-converted-to.pdf>
+Package pdftex.def Info: ./PitchPlot-eps-converted-to.pdf used on input line 49
+3.
+(pdftex.def)             Requested size: 252.94388pt x 189.7102pt.
+ [22 <C:/Users/Will/OneDrive/Uni/Individual Project/SoundSeparation/Dissertatio
+n/StereoPlots-eps-converted-to.pdf>]
+[23 <C:/Users/Will/OneDrive/Uni/Individual Project/SoundSeparation/Dissertation
+/FrequencyPlot-eps-converted-to.pdf> <C:/Users/Will/OneDrive/Uni/Individual Pro
+ject/SoundSeparation/Dissertation/PitchPlot-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <./OffsetPlot.eps>
+(epstopdf)                    date: 2017-04-06 15:08:03
+(epstopdf)                    size: 21922 bytes
+(epstopdf)             Output file: <./OffsetPlot-eps-converted-to.pdf>
+(epstopdf)                    date: 2017-04-06 17:00:44
+(epstopdf)                    size: 4082 bytes
+(epstopdf)             Command: <epstopdf --outfile=./OffsetPlot-eps-converted-
+to.pdf ./OffsetPlot.eps>
+(epstopdf)             \includegraphics on input line 506.
+Package epstopdf Info: Output file is already uptodate.
+
+<./OffsetPlot-eps-converted-to.pdf, id=152, 421.575pt x 316.18124pt>
+File: ./OffsetPlot-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./OffsetPlot-eps-converted-to.pdf>
+Package pdftex.def Info: ./OffsetPlot-eps-converted-to.pdf used on input line 5
+06.
+(pdftex.def)             Requested size: 252.94388pt x 189.7102pt.
+ [24 <C:/Users/Will/OneDrive/Uni/Individual Project/SoundSeparation/Dissertatio
+n/OffsetPlot-eps-converted-to.pdf>]
+Chapter 5.
+[25
+
+] [26]
 Appendix A.
-[18
+
+("C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Dissertation\Di
+ssertation.bbl" [27
+
+]) [28
 
 ]
 Appendix B.
-
-("C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Dissertation\Di
-ssertation.bbl" [19
-
-]) [20
-
-]
-Appendix C.
-[21
+[29
 
 ]
 ("C:\Users\Will\OneDrive\Uni\Individual Project\SoundSeparation\Dissertation\Di
 ssertation.aux") ) 
 Here is how much of TeX's memory you used:
- 289 strings out of 493921
- 4246 string characters out of 3147284
- 56031 words of memory out of 3000000
- 3645 multiletter control sequences out of 15000+200000
+ 1650 strings out of 493921
+ 25469 string characters out of 3147284
+ 81337 words of memory out of 3000000
+ 4917 multiletter control sequences out of 15000+200000
  8201 words of font info for 29 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 23i,6n,19p,1752b,123s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,6n,23p,1752b,223s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
 mbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pf
 b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Pro
@@ -142,9 +442,9 @@ cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 ><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Prog
 ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program File
 s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Dissertation.pdf (27 pages, 242754 bytes).
+Output written on Dissertation.pdf (35 pages, 294302 bytes).
 PDF statistics:
- 145 PDF objects out of 1000 (max. 8388607)
+ 220 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

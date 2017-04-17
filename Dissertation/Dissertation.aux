@@ -9,6 +9,7 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}Motivation}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.2}Overview of Sound Separation}{1}}
+\citation{noll1967cepstrum}
 \citation{virtanen2000separation}
 \citation{virtanen2003sound}
 \citation{melodyne}
@@ -46,26 +47,49 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3.5}Additional Features}{13}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.6}Parameter Choices}{14}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.7}Software Engineering Practice}{15}}
+\citation{vincent2006performance}
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Evaluation}{16}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {4.1}Method Comparisons}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Sinusoids vs. NMF}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Hard vs. Soft vs. Matrix vs. Naive Clustering}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Addition of Noise}{16}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Case Analysis}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Performance Against Noise}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Performance Against Stereo Separation}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Performance Against Frequency Offset}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}Synthetic Pathological Cases}{16}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusion}{17}}
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Test Cases}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Separation performance against the number of features extracted per sound. For the matrix factors, the same number of features were extracted on every input from the set, whereas with sinusoidal trajectories the threshold was constant, giving a range of actual sinusoid quantities so the average was taken.}}{17}}
+\newlabel{fig:FeatureCompPlot}{{4.1}{17}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Feature Choice}{17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Separation performance against the number of sounds in the mix. These values were taken over a single example where a complex auditory scene was gradually built up (so the sounds used in each test were also present in all later tests).}}{18}}
+\newlabel{fig:FeatureKGraph}{{4.2}{18}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Clustering Method}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Separation performance against clustering method when using sinusoidal trajectories for the sound elements. These were obtained with only a single test for the soft and NMF clustering options rather than multiple times and taking the ``hardest''.}}{19}}
+\newlabel{fig:ClusteringCompBoxPlotsSin}{{4.3}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Separation performance against clustering method when using matrix factors for the sound elements.}}{19}}
+\newlabel{fig:ClusteringCompBoxPlotsMat}{{4.4}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces A comparison of the separation performance with and without the reversibility property enforced for each choice of sound element (Sinusoidal trajectories or Matrix Factors).}}{20}}
+\newlabel{fig:ReversibleCompBoxPlots}{{4.5}{20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Reversibility}{20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Noise reduction at different levels when using both feature options. The standard test set was used but a sample of white noise is added. Since the amplitude of the individual instrument samples vary, the SNR will vary over the inputs and so was averaged for each level of noise.}}{21}}
+\newlabel{fig:NoisePlot}{{4.6}{21}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Case Analysis}{21}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Performance Against Noise}{21}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Performance Against Stereo Separation}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Separation performance against the stereo distance between the sounds in the input. These were obtained by using the standard test set but with fixed, as opposed to randomly selected, stereo positions. The stereo position value for a given sound is the proportion of its power routed through the left channel and the distance is the absolute difference between the stereo positions of the two sounds, so $ 0 $ corresponds to the sounds having the same stereo position and $ 1 $ means that they are maximally separated (one is entirely in the left channel and the other is entirely in the right channel).}}{22}}
+\newlabel{fig:StereoPlots}{{4.7}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Performance Against Frequency Offset}{22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Separation performance against frequency offset between the sounds. The inputs to this were a $ 465 $Hz square wave and a sine wave at some slightly higher frequency.}}{23}}
+\newlabel{fig:FrequencyPlot}{{4.8}{23}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Separation performance against pitch offset between the sounds. The input here was a combination of two square waves; one at $ 465 $Hz (approximately corresponding to the MIDI note $ \mathrm  {A}^\sharp 4 $) and the other at some number of semitones above.}}{23}}
+\newlabel{fig:PitchPlot}{{4.9}{23}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Separation performance against time offset. Two instrument samples were selected from the collection and aligned such that they appeared to be played at the same time. One was then progressively delayed to give the different test inputs.}}{24}}
+\newlabel{fig:OffsetPlot}{{4.10}{24}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}Performance Against Time Offset}{24}}
+\citation{virtanen2000separation}
+\citation{virtanen2003sound}
+\citation{virtanen2003algorithm}
+\citation{badeau2011gaussian}
+\citation{melodyne}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusion}{25}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \bibdata{DissertationBib}
-\@writefile{toc}{\contentsline {chapter}{\numberline {B}Bibliography}{19}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Test Cases}{27}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \bibcite{virtanen2000separation}{1}
@@ -73,14 +97,18 @@
 \bibcite{juce}{3}
 \bibcite{cherry1953some}{4}
 \bibcite{hadamard1902problemes}{5}
-\bibcite{melodyne}{6}
-\bibcite{spatralayers}{7}
-\bibcite{bregman1994auditory}{8}
-\bibcite{philharmonia}{9}
-\bibcite{audacity}{10}
-\bibcite{fftw}{11}
-\bibcite{lee2001algorithms}{12}
+\bibcite{noll1967cepstrum}{6}
+\bibcite{melodyne}{7}
+\bibcite{spatralayers}{8}
+\bibcite{bregman1994auditory}{9}
+\bibcite{philharmonia}{10}
+\bibcite{audacity}{11}
+\bibcite{fftw}{12}
+\bibcite{lee2001algorithms}{13}
+\bibcite{vincent2006performance}{14}
+\bibcite{virtanen2003algorithm}{15}
+\bibcite{badeau2011gaussian}{16}
 \bibstyle{ieeetr}
-\@writefile{toc}{\contentsline {chapter}{\numberline {C}Project Proposal}{21}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}Project Proposal}{29}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}

@@ -1,6 +1,9 @@
 \documentclass[10pt,twoside,a4paper]{report}
 
 \usepackage{a4}
+\usepackage{graphics}
+\usepackage{epstopdf}
+\usepackage{epsfig}
 
 \begin{document}
 
@@ -62,21 +65,21 @@ Thank peeps
 
 \pagenumbering{arabic}
 
-In this project, I have been investigating a few techniques for harmonic sound separation based on feature extraction and clustering. I aimed to provide a comparison of the performance when using Sinusoidal Trajectories or spectrogram factors as the features, as well as evaluating how the accuracy of the reconstructions vary with factors such as signal-to-noise ratio, stereo distance between the sources and pitch offset.
+In this project, I have been investigating a few techniques for harmonic sound separation based on feature extraction and clustering. I aimed to provide a comparison of the performance between using Sinusoidal Trajectories or spectrogram factors as the features, as well as evaluating how the accuracy of the reconstructions vary with factors such as signal-to-noise ratio, stereo distance between the sources and pitch offset.
 
 \section{Motivation}
 
-The physical world has many harmonic signal generators, many of which appear as both the desired signal and as noise in our sensor data. As humans, we have evolved to be able to isolate a single sound source from a large combination, enabling us to identify the music played by each instrument in a song or listen to a particular conversation in a crowded room, as evidenced by Cherry's experiments on the ``cocktail party problem'' \cite{cherry1953some}. The ability for computers to be able to solve this problem are essential for personal assistant applications. Sound separation can be viewed as a special case of the problem of noise-removal, which is a necessary process for a lot of autonomous systems. The instance of the problem that this project considers is aimed at the requirements of audio analysis and editing for music.
+The physical world contains a lot of harmonic signal generators, many of which appear as both the desired signal and as noise in our sensor data. As humans, we have evolved to be able to isolate a single sound source from a large combination, enabling us to identify the music played by each instrument in a song or listen to a particular conversation in a crowded room, as evidenced by Cherry's experiments on the ``cocktail party problem'' \cite{cherry1953some}. The ability for computers to be able to solve this problem is essential for personal assistant applications. Sound separation can be viewed as a special case of the problem of noise-removal, which is a necessary process for a lot of autonomous systems. The instance of the problem that this project considers is aimed at the requirements of audio analysis and editing of music.
 
 It is important to note that the general problem of perfectly separating $ k $ sounds given fewer than $ k $ channels is ill-posed under Hadamard's conditions \cite{hadamard1902problemes} since solutions are not unique. Sound separation is the inverse problem of mixing (taking $ k $ audio streams and combining them additively into a single stream), but it is trivial to construct two sets of different sounds which produce the same result after mixing. This motivates the need for assumptions about the structures of the sounds to limiting the number of valid inverses and give a problem that we can reliably solve.
 
 \section{Overview of Sound Separation}
 
-One way in that we can make the separation algorithm well-defined is by only allowing a small set of known sounds to be used. This converts the sound separation problem to one of projecting a sound onto a fixed basis. However, this ``informed'' approach to sound separation limits the usage to those sounds that the system knows as it cannot generalise to outside of this range. Some systems can ask for other hints to aid the separation process. This can come in the form of a human user, for example, specifying the approximate stereo positions of the sound sources, providing the number of sounds present, or by identifying patterns in extracted sinusoids to propose groupings of them.
+One way in that we can make the separation algorithm well-defined is by only allowing a small set of known sounds to be used. This converts the sound separation problem to one of projecting a sound onto a fixed basis. However, this ``informed'' approach to sound separation limits the usage to those sounds that the system knows as it cannot generalise to outside of this range. Some systems can ask for other hints to aid the separation process. This can come in the form of a human user, for example, specifying the approximate stereo positions of the sound sources, providing the number of sounds present, or by identifying regions of the spectrogram belonging to the same sound.
 
-For this project, I have chosen to consider uninformed sound separation methods due to the potential for more general applications. However, in order to constrain the problem, I am enforcing the assumption that all of the sound sources are harmonic (at any time, the peaks in the Fourier spectrum occur at integer multiples of some base frequency), forcing there to be some structure that we can exploit in the separation process. Given the focus on musical applications in this project, this assumption often holds since tonal (non-percussive) instruments are harmonic due to the production of standing waves. I am assuming that the system is provided with the number of sounds present since, even if the user is incapable of doing this, we could produce programs that can estimate this quantity based on estimations of onset times or using pitch-detection algorithms (such as looking for strong cepstral peaks to get the number of different base frequencies).
+For this project, I have chosen to consider uninformed sound separation methods (also known as Blind Audio Sound Separation) due to the potential for more general applications. However, in order to constrain the problem, I am enforcing the assumption that all of the sound sources are harmonic (at any time, the peaks in the Fourier spectrum occur at integer multiples of some base frequency), forcing there to be some structure that we can exploit in the separation process. Given the focus on musical applications in this project, this assumption often holds since tonal (non-percussive) instruments are harmonic due to standing waves being used to produce the sounds. I am assuming that the system is provided with the number of sounds present since, even if the user is incapable of doing this, we could produce programs that can estimate this quantity based on estimations of onset times or using pitch-detection algorithms (such as looking for strong cepstral peaks to obtain the base frequencies \cite{noll1967cepstrum}).
 
-The solution produced was designed by following the work of Virtanen and Klapuri \cite{virtanen2000separation} which separated sounds by identifying key sinusoids and their amplitude and frequency envelopes, then grouped them based on the similarity of the envelopes to recover the original sound. Within this investigation, we will consider this as the more general approach of identifying components of the sounds and then clustering them such that those components from the same sound source are likely to be in the same cluster. The main comparison within the project is between using simple sinusoids and using spectrogram factors, as in other work by Virtanen \cite{virtanen2003sound}, as the components of the sounds.
+The solution produced was designed by following the work of Virtanen and Klapuri \cite{virtanen2000separation} which separated sounds by identifying key sinusoids and their amplitude and frequency envelopes, then grouped them based on the similarity of the envelopes to recover the original sound. Within this investigation, we will consider this under the more general approach of identifying components of the sounds and then clustering them such that those components from the same sound source are likely to be in the same cluster. The main comparison within the project is between using simple sinusoids and using spectrogram factors, as in other work by Virtanen \cite{virtanen2003sound}, as the components of the sounds.
 
 \section{Current Implementations}
 
@@ -303,7 +306,9 @@ The aim of the thresholding of the STFT prior to sinusoid extraction is to contr
 
 For Lloyd's algorithm, it may take a long time to converge for a large number of data points so it is common to set a threshold for the number of assignments that need to change in each assignment before the iteration is stopped. However, for the number of components typically used during testing, I did not find that this took obscenely long to execute and so I allowed it to carry on until no assignments changed.
 
-The weights given to each of the distance measurements between sinusoidal trajectories when obtaining their feature vectors for clustering and the stiffness parameter of the soft clustering technique were set in order to minimise the error on a validation set. This was performed by taking five of the instrument samples (all of which were of different instruments being played at different notes to consider the best case performance) and combining each pair of them together with some stereo separation (varying between zero and absolute separation). The error measure was taken as the Euclidean distance between the normalised vectors of sample values of the individual instrument sounds and their reconstructions. Each parameter was varied, holding all others constant, until the optimum was identified and this process repeated until they all converged. It was worth noticing that the optimal weights for the distances between frequency and amplitude envelopes of the trajectories was zero. This is likely to be as a result of the poor approximations made in determining the frequency and amplitude of the trajectories, meaning that the variations in the envelopes were mostly random.
+The weights given to each of the distance measurements between sinusoidal trajectories when obtaining their feature vectors for clustering and the stiffness parameter of the soft clustering technique were set in order to minimise the error on a validation set. This was performed by taking five of the instrument samples (all of which were of different instruments being played at different notes to consider the best case performance) and combining each pair of them together with some stereo separation (varying between zero and absolute separation). The error measure was taken as the Euclidean distance between the normalised vectors of sample values of the individual instrument sounds and their reconstructions. Each parameter was varied, holding all others constant, until the optimum was identified and this process repeated until they all converged. It is worth noticing that the optimal weight for the distance between frequency envelopes of the trajectories was zero. This is likely to be as a result of both the poor approximations made in determining the frequency of spectrogram peaks causing largely random variations and the limited frequency variations in the test samples.
+
+%It was worth noticing that the optimal weights for the distances between frequency and amplitude envelopes of the trajectories was zero. This is likely to be as a result of the poor approximations made in determining the frequency and amplitude of the trajectories, meaning that the variations in the envelopes were mostly random.
 
 %\section{Tests}
 
@@ -357,41 +362,181 @@ where $ s_i $ is the signal from the target source and $ e_{\mathrm{interf}} $, 
 
 In most cases, we will not be considering the addition of noise, so we can assume that $ e_{\texttt{noise}} $ is zero and we will not look at the Signal to Noise Ratio. The remaining metrics each describe the performance of the system in a different way. The Signal to Interference Ratio indicates how well the sound components were clustered and so can be viewed as the precision of the separation. The Signal to Artefact Ratio indicates how well the outputs actually fit the inputs, consequently measuring the quality with which the sound components can actually capture the full sounds. The Signal to Distortion Ratio is somewhere between these and gives the overall quality of the outputs.
 
-Test sets
+Unless otherwise stated, the tests done for producing the graphs and statistics were obtained using a test set comprising of 40 mixtures, each with two sounds from a selection of 20. These samples were evenly distributed between 5 different instruments and were selected to give a good spread over the musical notes. The pairings from the test set were chosen at random such that each sound was used equally often but were consistent across each test.
 
-\subsection{Sinusoids vs. NMF}
+\subsection{Feature Choice}
 
-\subsection{Hard vs. Soft vs. Matrix vs. Naive Clustering}
+%Graphs of SDR, SIR, SAR against number of features, include error bars
 
-\subsection{Addition of Noise}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{./FeatureCompPlot}
+\caption{Separation performance against the number of features extracted per sound. For the matrix factors, the same number of features were extracted on every input from the set, whereas with sinusoidal trajectories the threshold was constant, giving a range of actual sinusoid quantities so the average was taken.}
+\label{fig:FeatureCompPlot}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{./FeatureKGraph}
+\caption{Separation performance against the number of sounds in the mix. These values were taken over a single example where a complex auditory scene was gradually built up (so the sounds used in each test were also present in all later tests).}
+\label{fig:FeatureKGraph}
+\end{figure}
+
+%Comment on trends, noting time taken
+
+Both sinusoidal trajectories and spectrogram factors have their theoretical benefits when it comes to separation. In practice, using the matrix factors gives better SDR and SAR values per feature extracted which is as expected since each one is able to potentially capture a significant proportion of the information and it could take many trajectories to represent a given spectrogram to within some error margin. However, the finer control over regions of the spectrogram and the guarantee that each feature originates from a single source (except for the case of colliding harmonics which are much harder to separate in either case) given by the sinusoidal trajectories allow them to generally give SIR values several orders of magnitude larger.
+
+A surprising result is that, with both options, increasing the number of features that were extracted did not always improve the quality of reconstruction or separation. For example, having many ``broken'' trajectories will greatly increase the number of features obtained but most of them will not relate well to one another due to not overlapping for very long in time. This can push the separation towards removing these small artefacts from the mix rather than removing one of the sounds. Also, after obtaining the peaks of the actual harmonics, the next most significant spectral regions are likely to be from spectral leakage around the actual harmonics. These fake sinusoids are unlikely to be clustered with the real sounds since they will not have great harmonic concordance. This latter case is an issue with spectrogram factors as well, since they will eventually start to not actually resemble either of the individual sounds. Given that the time taken for the solution to run increases by a factor of *************** when going from ******** to ********** sinusoidal trajectories, it is often not worth greatly increasing the amount of information used by the system.
+
+When separating sounds from a more complex auditory scene, as in the test used for Figure \ref{fig:FeatureKGraph}, it may be the case that adding another sound to the mix may improve the average quality if the added sound is one that can easily be separated from all others currently present. However, in general the SIR is likely to decrease as the number of sounds increases since there is a much greater likelihood of clashing harmonics. This is reasonable from a human perspective as we will generally struggle in the scenario of the cocktail party problem as the number of simultaneous nearby speakers increases and it would often be a considered a very difficult task to identify the notes played by the third trumpet in a full orchestra.
+
+\subsection{Clustering Method}
+
+%Graphs showing box plots of SDR, SIR, SAR for each clustering method
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{./ClusteringCompBoxPlotsSin}
+\caption{Separation performance against clustering method when using sinusoidal trajectories for the sound elements. These were obtained with only a single test for the soft and NMF clustering options rather than multiple times and taking the ``hardest''.}
+\label{fig:ClusteringCompBoxPlotsSin}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{./ClusteringCompBoxPlotsMat}
+\caption{Separation performance against clustering method when using matrix factors for the sound elements.}
+\label{fig:ClusteringCompBoxPlotsMat}
+\end{figure}
+
+%Comment on trends - best for Sinusoids, best for NMF, intuitions
+
+The expected differences between using the hard and soft $ k $-means clustering methods were that soft clustering would improve the SAR because the reconstructions would be less distorted (misclassified features from the target sound will still be present) at the expense of the SIR (more features from other sounds will be partially present). This was evident in the results when using spectrogram factors. However, I found that there was little difference in the overall quality of the results between using the hard and soft clustering for sinusoidal trajectories. This most likely arose because they were separately optimised for SDR which might have favoured harder assignments for sinusoidal trajectories and softer assignments for spectrogram factors. This may be because of their finer structure ensuring, where possible, that each feature was only from a single sound which can naturally give rise to greater separability and consequently harder assignments.
+
+Theoretically, clustering by NMF should be equivalent to soft $ k $-means but the results show it to act somewhat differently. Due to the lack of ``stiffness'' control when using NMF it would treat the problem the same for both feature options. From the observed results, it would appear as though it is clustering softer than the optimal for sinusoids and harder than the optimal for spectrogram factors.
+
+The na\"{i}ve clustering method was found to offer similar results to the hard and soft $ k $-means but with a lower average SIR. Since it only makes use of the harmonic concordance between sinusoids whereas the other clustering options used a number of different dimensions of comparison, this result comes as no surprise.
+
+From the options presented in this investigation, the results would indicate that using spectrogram factors with soft clustering should be preferred if the purity of the original sounds should be prioritised since it maximises the Signal to Artefact Ratio. On the other hand, the method that looks most promising for accuracy of the separation is by taking the sinusoidal trajectories and separating them by soft clustering.
+
+\subsection{Reversibility}
+
+Describe general effect on SDR, SIR, SAR
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{./ReversibleCompBoxPlots}
+\caption{A comparison of the separation performance with and without the reversibility property enforced for each choice of sound element (Sinusoidal trajectories or Matrix Factors).}
+\label{fig:ReversibleCompBoxPlots}
+\end{figure}
+
+The desired effect of adding the reversibility property is to eliminate artefacts from the combined outputs (and hence some of the artefacts from each individual output). In achieving this, we sacrifice some of the quality of separation by allowing some of the remainder, which may be noise or interference from other sources, to be included in each output. Whilst this is also the intended result of using soft clustering, this can have more dramatic effects, especially in the case where very few features are extracted.
+
+Figure \ref{fig:ReversibleCompBoxPlots} shows the typical effects of enforcing a reversible separation. With both feature options, we obtain a significant increase in SAR as both the artefacts in each output are reduced and the projections onto the target and interference error are increased as the original sounds are better captured. In fact, on this test set the reduction of artefacts was much greater than the increase in interference, giving a higher SDR for some tests that had previously been handled poorly.
 
 \section{Case Analysis}
 
 Describe chosen final solution for further analysis
 
+The remainder of this chapter discusses the performance of the solution against a number of properties of the input. These are primarily targeted at aspects of the solution when using sinusoidal trajectories so we will focus on results acquired with them and soft clustering without forcing reversibility.
+
 \subsection{Performance Against Noise}
 
-Varying noise level
+%Varying noise level
 
-Varying threshold without noise
+%Varying threshold without noise
+
+%Graphs showing output SNR, SDR, SAR against input SNR
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{./NoisePlot}
+\caption{Noise reduction at different levels when using both feature options. The standard test set was used but a sample of white noise is added. Since the amplitude of the individual instrument samples vary, the SNR will vary over the inputs and so was averaged for each level of noise.}
+\label{fig:NoisePlot}
+\end{figure}
+
+%Comment on how much noise is removed/how it affects the artefacts
+
+When modelling the sound using sinusoids, I am explicitly thresholding the STFT at a given level. When the noise sits below that level, none of it will be extracted as features and hence it will not appear in the outputs. However, as we decrease the SNR in the input, some of the noise will start to push over the threshold. This will not only add elements of the noise to the output, but it may cause worse clustering, adding more interference and reducing the level of the target sound. After reaching this point, increasing the noise level further will simply force more of it over the threshold which increases this effect. Since white noise has a flat spectrum, most of it exceeds the threshold at a similar time, causing the catastrophic drop in SNR shown in Figure \ref{fig:NoisePlot}.
+
+On the other hand, the Matrix Factors are designed to extract the most significant patterns in the spectrogram. As white noise was used, we would expect this to have an approximately flat and constant power spectrum which would allow it to be extracted by a single factor. This means that the clustering results are not greatly affected by the noise level. However, since it is unable to eliminate this noise it will always be present in the outputs at approximately the same level as at the input.
 
 \subsection{Performance Against Stereo Separation}
 
+%Graph of SDR, SAR, SIR against stereo difference (two inputs only)
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{./StereoPlots}
+\caption{Separation performance against the stereo distance between the sounds in the input. These were obtained by using the standard test set but with fixed, as opposed to randomly selected, stereo positions. The stereo position value for a given sound is the proportion of its power routed through the left channel and the distance is the absolute difference between the stereo positions of the two sounds, so $ 0 $ corresponds to the sounds having the same stereo position and $ 1 $ means that they are maximally separated (one is entirely in the left channel and the other is entirely in the right channel).}
+\label{fig:StereoPlots}
+\end{figure}
+
+A greater stereo distance between two trajectories gives greater confidence that they are from different sources. This is demonstrated by the system as the SIR increases with stereo distance as in Figure \ref{fig:StereoPlots}. One could say that any non-zero stereo distance would indicate that a pair of trajectories are not related but in practice this is not the case. We will generally observe some error in the estimate of the stereo position due to noise and random variations. This means that it would be sensible to allow some tolerance with respect to stereo distance. Furthermore, if the trajectory corresponds to colliding harmonics, the stereo position will not necessarily match that of either source, so we may still wish to consider grouping together trajectories with large stereo distances. This is captured by my system in how the sharp increase in SIR caused by the stereo information dominating occurs at a rather large stereo distance.
+
 \subsection{Performance Against Frequency Offset}
 
-\subsection{Synthetic Pathological Cases}
+%Graph of SDR, SAR, SIR against frequency offset (square wave plus sine wave)
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{./FrequencyPlot}
+\caption{Separation performance against frequency offset between the sounds. The inputs to this were a $ 465 $Hz square wave and a sine wave at some slightly higher frequency.}
+\label{fig:FrequencyPlot}
+\end{figure}
+
+The frequency of a sinusoid is important at both the feature extraction and clustering stages of the solution. If the frequencies of two sinusoids are too close together, there is a chance that the STFT peaks caused by one of them might mask the peaks of the other and so it is not extracted at all or, in the extreme case, they collide and so a single trajectory is extracted representing both of them. When two sinusoids are close in frequency, those other sinusoids in harmonic concordance with one are likely to have good concordance with the other, making it harder to notice which one is from which sound. This is demonstrated by the general trend in Figure \ref{fig:FrequencyPlot}. The interesting result from this test was that having the sinusoids collide improved the quality of the outputs, compared to when they are at slightly different frequencies.
+
+%Graph of SDR, SAR, SIR against pitch offset (square wave plus pitch-shifted square wave)
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{./PitchPlot}
+\caption{Separation performance against pitch offset between the sounds. The input here was a combination of two square waves; one at $ 465 $Hz (approximately corresponding to the MIDI note $ \mathrm{A}^\sharp 4 $) and the other at some number of semitones above.}
+\label{fig:PitchPlot}
+\end{figure}
+
+The issues with frequency do not only occur when the base frequencies of the sounds are close, but when two sounds happen to harmonise well. Figure \ref{fig:PitchPlot} demonstrates this effect as we observe drastic drops in performance when the inputs have intervals of $ 3 $, $ 6 $, $ 8 $ or $ 12 $ semitones. However, one would expect that intervals of $ 4 $ and $ 7 $ would have particularly poor performance as the ratio of frequencies are approximately $ \frac{5}{4} $ and $ \frac{3}{2} $ whereas those identified are close to $ \frac{6}{5} $, $ \frac{7}{5} $ and $ \frac{8}{5} $ (ignoring the $ \frac{2}{1} $ from the octave). It is unfortunate that the same principle of what makes combinations of musical notes sound appealing also makes them harder to separate.
+
+\subsection{Performance Against Time Offset}
+
+%Graph of SDR, SAR, SIR against time offset (two different instruments, same note, varying time offset)
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{./OffsetPlot}
+\caption{Separation performance against time offset. Two instrument samples were selected from the collection and aligned such that they appeared to be played at the same time. One was then progressively delayed to give the different test inputs.}
+\label{fig:OffsetPlot}
+\end{figure}
+
+The onsets of the sounds are important in this separation process when using sinusoidal trajectories in the onset distance and in determining the overlapping regions for the frequency, amplitude and stereo envelope distances (in the latter case, the normalisation for the overlap duration should not cause a great difference when varying the onset time slightly). As expected, the solution showed a gradual increase in SIR as the onset distance was increased, but I also observed an improvement in SAR immediately after introducing a small delay between the starts of the sounds.
+
+%\subsection{Synthetic Pathological Cases (if I have time/space)}
+
+%Comment on effect of specifying wrong k
+
+%Frequency crossover test
+
+%Speech (overlay two spoken words from different voices and look at results); comment on how speech is different to instruments
 
 \chapter{Conclusion}
 
-Paragraph stating tasks completed over project
+%Paragraph stating tasks completed over project
 
-Open questions on topic
+The main goals of this project were to explore and compare the uses of sinusoidal modelling and Non-negative Matrix Factorisation for extracting features of harmonic sounds in the context of sound separation. Since beginning this investigation I have produced a tool which is capable of using either feature model to separate a simple mixture of harmonic sounds. I have gone on to extend this solution to consider the use of a number of different clustering methods, particularly comparing the application of both hard and soft clustering techniques. I have evaluated the performance of the solution using several metrics and provided some interpretations of these results using insight about the human ability to perform this task and the design of the system.
 
-Comment on my workflow during project
+%Open questions on topic
 
-Potential further extensions - UI for assisted clustering
+%Comment on my workflow during project
 
-Use of solutions and state of field
+Concerning the management of this project, I have planned and undergone a substantial research and implementation task involving the design of a small software solution to an academically interesting problem. I maintained a fluid specification as the investigation grew to include multiple degrees of comparison, many of which allowed for improvements in the quality of the solution under several different metrics. Whilst time management was an issue at some points in the project timeline, any setbacks were rectified and the latter half of the work segments were completed to schedule.
+
+%Potential further extensions - UI for assisted clustering, tensor decomposition
+
+Although this dissertation marks the end of the project, there are a few potential improvements on the solution that could still be made. The addition of an interactive user interface for assisted clustering could yield vastly improved separation results as humans are very good at spotting the kinds of patterns that are exhibited in the spectrum of an instrument and for identifying possible issues like colliding harmonics or spectral regions with significant noise or artefacts. I would plan to do this by presenting the spectrogram of the input, highlighting each sinusoidal trajectory according to the cluster to which it is assigned, then allow the user to manually fix the clusters of some trajectories, to which the system can respond by rerunning the clustering procedure and updating the suggestions. Another further extension would be to incorporate stereo information into the extraction of matrix factors by using tensor decomposition (an extension to NMF allowing it to be used on tensors of higher dimensions) or by running NMF on a concatenation of the spectrograms of the left and right channels.
+
+%Use of solutions and state of field
+
+The solution presented here was based on the works of Virtanen and Klapuri \cite{virtanen2000separation} on sound separation by sinusoidal modelling and by NMF \cite{virtanen2003sound} but the state of the art in the field has since moved on. Each of these techniques has been improved on with the introduction of smoothness constraints \cite{virtanen2003algorithm} and High Resolution NMF \cite{badeau2011gaussian}`. More specialised cases have been introduced for human speech which directly tackle the cocktail party problem and the applications of personal assistants and responding to voice-commands. For musically focussed separation, Celemony's Melodyne \cite{melodyne} is a notable leader amongst the commercial solutions, providing suitable quality for most editing and sampling needs. The solution I have presented in this project may not provide the scale of operation that commercial products are capable of, but it demonstrates some of the principles of sound separation that make it feasible to obtain results of a high quality.
 
 \appendix
 
@@ -399,7 +544,7 @@ Use of solutions and state of field
 
 Include spectrograms of examples of typical test inputs, performance tests and pathological cases
 
-\chapter{Bibliography}
+%\chapter{Bibliography}
 
 \bibliography{DissertationBib}
 

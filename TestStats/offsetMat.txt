@@ -1,0 +1,22 @@
+offset = 0ms
+SDR = -3.21057
+SIR = 8.55148
+SAR = -0.438837
+offset = 50ms
+SDR = -3.1904
+SIR = 5.07654
+SAR = -0.182423
+offset = 100ms
+SDR = -1.51928
+SIR = 4.46536
+SAR = 1.72026
+offset = 150ms
+SDR = 0.625772
+SIR = 3.87947
+SAR = 5.53185
+offset = 200ms
+SDR = -8.63883
+SIR = 3.57002
+SAR = -1.17835
+
+nmfFactors = 10

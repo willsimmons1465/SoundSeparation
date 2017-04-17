@@ -1,0 +1,32 @@
+26
+stereoPos = 0.5
+SDR = -2.62889
+SIR = 25.8106
+SAR = -2.47903
+27
+stereoPos = 0.6
+SDR = -3.92521
+SIR = 23.2608
+SAR = -3.73077
+27
+stereoPos = 0.7
+SDR = -3.92884
+SIR = 23.5572
+SAR = -3.7355
+26
+stereoPos = 0.8
+SDR = -2.6414
+SIR = 27.3636
+SAR = -2.49479
+27
+stereoPos = 0.9
+SDR = -3.93849
+SIR = 25.3772
+SAR = -3.74506
+25
+stereoPos = 1
+SDR = -3.03382
+SIR = 34.9062
+SAR = -2.86746
+
+threshold = 2e21
