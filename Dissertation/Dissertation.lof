@@ -1,17 +1,25 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Schematic of the overall separation process.}}{12}{figure.3.1}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Separation performance against the number of features extracted per sound. For the matrix factors, the same number of features were extracted on every input from the set, whereas with sinusoidal trajectories the threshold was constant, giving a range of actual sinusoid quantities so the average was taken.}}{17}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Separation performance against the number of sounds in the mix. These values were taken over a single example where a complex auditory scene was gradually built up (so the sounds used in each test were also present in all later tests).}}{18}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Separation performance against clustering method when using sinusoidal trajectories for the sound elements. These were obtained with only a single test for the soft and NMF clustering options rather than multiple times and taking the ``hardest''.}}{19}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Separation performance against clustering method when using matrix factors for the sound elements.}}{19}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces A comparison of the separation performance with and without the reversibility property enforced for each choice of sound element (Sinusoidal trajectories or Matrix Factors).}}{20}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Noise reduction at different levels when using both feature options. The standard test set was used but a sample of white noise is added. Since the amplitude of the individual instrument samples vary, the SNR will vary over the inputs and so was averaged for each level of noise.}}{21}
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Separation performance against the stereo distance between the sounds in the input. These were obtained by using the standard test set but with fixed, as opposed to randomly selected, stereo positions. The stereo position value for a given sound is the proportion of its power routed through the left channel and the distance is the absolute difference between the stereo positions of the two sounds, so $ 0 $ corresponds to the sounds having the same stereo position and $ 1 $ means that they are maximally separated (one is entirely in the left channel and the other is entirely in the right channel).}}{22}
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Separation performance against frequency offset between the sounds. The inputs to this were a $ 465 $Hz square wave and a sine wave at some slightly higher frequency.}}{23}
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Separation performance against pitch offset between the sounds. The input here was a combination of two square waves; one at $ 465 $Hz (approximately corresponding to the MIDI note $ \mathrm {A}^\sharp 4 $) and the other at some number of semitones above.}}{23}
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Separation performance against time offset. Two instrument samples were selected from the collection and aligned such that they appeared to be played at the same time. One was then progressively delayed to give the different test inputs.}}{24}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Separation performance against the number of elements extracted per sound.}}{22}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Separation performance against the number of sounds in the mix.}}{23}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Separation performance against clustering method when using sinusoidal trajectories as the sound elements.}}{24}{figure.4.3}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Separation performance against clustering method when using spectrogram factor components as the sound elements.}}{25}{figure.4.4}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces A comparison of the separation performance with and without the reversibility property enforced for each choice of sound element.}}{26}{figure.4.5}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Noise reduction at different levels when using both sound element options.}}{27}{figure.4.6}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Separation performance against the stereo distance between the sounds in the input.}}{28}{figure.4.7}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Separation performance against frequency offset between the sounds.}}{29}{figure.4.8}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Separation performance against pitch offset between the sounds.}}{30}{figure.4.9}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Separation performance against time offset.}}{30}{figure.4.10}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Example outputs where Sinusoidal Modelling outperforms NMF.}}{38}{figure.A.1}
+\contentsline {figure}{\numberline {A.2}{\ignorespaces Example outputs where NMF outperforms Sinusoidal Modelling.}}{39}{figure.A.2}
+\contentsline {figure}{\numberline {A.3}{\ignorespaces Example outputs for hard and soft clustering of Sinusoidal Trajectories.}}{40}{figure.A.3}
+\contentsline {figure}{\numberline {A.4}{\ignorespaces Example outputs for NMF and na\"{i}ve clustering of Sinusoidal Trajectories.}}{41}{figure.A.4}
+\contentsline {figure}{\numberline {A.5}{\ignorespaces Example outputs with and without the reversibility property enforced.}}{42}{figure.A.5}
+\contentsline {figure}{\numberline {A.6}{\ignorespaces Observations on increasing the number of sinusoidal trajectories extracted.}}{43}{figure.A.6}
+\contentsline {figure}{\numberline {A.7}{\ignorespaces Observations on increasing the number of spectrogram factor components extracted.}}{44}{figure.A.7}
 \addvspace {10\p@ }

@@ -14,9 +14,11 @@ class Separation
 	static const long hopSize = 1024;
 	static const long nfft = 8192;
 	static const long nmfFactors = 10;
+	//static const long nmfFactors = 221;
 	static const double noiseThreshold;
-	static const double softClusterStiffness;
 public:
+	static double softClusterStiffnessSin;
+	static double softClusterStiffnessMat;
 	static double matrixWeightSource;
 	static double matrixWeightMix;
 	enum FeatureOption {

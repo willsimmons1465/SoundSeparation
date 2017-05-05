@@ -35,16 +35,16 @@ subplot(3, 1, 1)
 boxplot(sinSDR, cOp)
 %hold on
 %boxplot(matSDR, cOp(1:3))
-ylabel('SDR')
+ylabel('SDR/dB')
 xticks([]);
 %legend('Sinusoids', 'Matrix Factors')
-title('Separation performance against clustering method with sinusoids')
+%title('Separation performance against clustering method with sinusoids')
 
 subplot(3, 1, 2)
 boxplot(sinSIR, cOp)
 %hold on
 %boxplot(matSIR, cOp(1:3))
-ylabel('SIR')
+ylabel('SIR/dB')
 xticks([]);
 
 subplot(3, 1, 3)
@@ -52,22 +52,22 @@ boxplot(sinSAR, cOp)
 %hold on
 %boxplot(matSAR, cOp(1:3))
 xlabel('Clustering Method')
-ylabel('SAR')
+ylabel('SAR/dB')
 
 
 figure
 subplot(3, 1, 1)
 boxplot(matSDR, cOp(1:3))
-ylabel('SDR')
+ylabel('SDR/dB')
 xticks([]);
-title('Separation performance against clustering method with matrix factors')
+%title('Separation performance against clustering method with matrix factors')
 
 subplot(3, 1, 2)
 boxplot(matSIR, cOp(1:3))
-ylabel('SIR')
+ylabel('SIR/dB')
 xticks([]);
 
 subplot(3, 1, 3)
 boxplot(matSAR, cOp(1:3))
 xlabel('Clustering Method')
-ylabel('SAR')
+ylabel('SAR/dB')

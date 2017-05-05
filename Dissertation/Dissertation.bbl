@@ -1,71 +1,163 @@
 \begin{thebibliography}{10}
 
-\bibitem{virtanen2000separation}
-T.~Virtanen and A.~Klapuri, ``Separation of harmonic sound sources using
-  sinusoidal modeling,'' in {\em Acoustics, Speech, and Signal Processing,
-  2000. ICASSP'00. Proceedings. 2000 IEEE International Conference on}, vol.~2,
-  pp.~II765--II768, IEEE, 2000.
-
-\bibitem{virtanen2003sound}
-T.~Virtanen, ``Sound source separation using sparse coding with temporal
-  continuity objective.,'' in {\em ICMC}, pp.~231--234, 2003.
-
-\bibitem{juce}
-R.~Ltd, ``Juce,'' 2017.
-
-\bibitem{cherry1953some}
-E.~C. Cherry, ``Some experiments on the recognition of speech, with one and
-  with two ears,'' {\em The Journal of the acoustical society of America},
-  vol.~25, no.~5, pp.~975--979, 1953.
-
-\bibitem{hadamard1902problemes}
-J.~Hadamard, ``Sur les probl{\`e}mes aux d{\'e}riv{\'e}es partielles et leur
-  signification physique,'' {\em Princeton university bulletin}, vol.~13,
-  no.~49-52, p.~28, 1902.
-
-\bibitem{noll1967cepstrum}
-A.~M. Noll, ``Cepstrum pitch determination,'' {\em The journal of the
-  acoustical society of America}, vol.~41, no.~2, pp.~293--309, 1967.
-
 \bibitem{melodyne}
-C.~S. GmbH, ``Celemony,'' 2017.
-
-\bibitem{spatralayers}
-M.~S. GmbH, ``Spectralayers pro,'' 2017.
-
-\bibitem{bregman1994auditory}
-A.~S. Bregman, {\em Auditory scene analysis: The perceptual organization of
-  sound}.
-\newblock MIT press, 1994.
-
-\bibitem{philharmonia}
-P.~Ltd, ``Philharmonia orchestra sound samples,'' 2017.
-
-\bibitem{audacity}
-A.~Team, ``Audacity,'' 2017.
+Celemony.
+\newblock \url{http://www.celemony.com/en/start}.
+\newblock Accessed: 2017-03-19.
 
 \bibitem{fftw}
-M.~Frigo, ``Fftw,'' 2017.
+Fftw.
+\newblock \url{http://www.fftw.org/}.
+\newblock Accessed: 2017-03-19.
 
-\bibitem{lee2001algorithms}
-D.~D. Lee and H.~S. Seung, ``Algorithms for non-negative matrix
-  factorization,'' in {\em Advances in neural information processing systems},
-  pp.~556--562, 2001.
+\bibitem{juce}
+Juce.
+\newblock \url{http://www.juce.com}.
+\newblock Accessed: 2017-03-19.
 
-\bibitem{vincent2006performance}
-E.~Vincent, R.~Gribonval, and C.~F{\'e}votte, ``Performance measurement in
-  blind audio source separation,'' {\em IEEE transactions on audio, speech, and
-  language processing}, vol.~14, no.~4, pp.~1462--1469, 2006.
+\bibitem{philharmonia}
+Philharmonia orchestra sound samples.
+\newblock \url{http://www.philharmonia.co.uk/explore/sound_samples}.
+\newblock Accessed: 2017-03-19.
 
-\bibitem{virtanen2003algorithm}
-T.~Virtanen, ``Algorithm for the separation of harmonic sounds with
-  time-frequency smoothness constraint,'' in {\em Proc. Int. Conf. on Digital
-  Audio Effects (DAFx)}, pp.~35--40, 2003.
+\bibitem{spatralayers}
+Spectralayers pro.
+\newblock \url{http://www.magix-audio.com/gb/spectralayers-pro/}.
+\newblock Accessed: 2017-03-19.
 
 \bibitem{badeau2011gaussian}
-R.~Badeau, ``Gaussian modeling of mixtures of non-stationary signals in the
-  time-frequency domain (hr-nmf),'' in {\em Applications of Signal Processing
-  to Audio and Acoustics (WASPAA), 2011 IEEE Workshop on}, pp.~253--256, IEEE,
-  2011.
+Roland Badeau.
+\newblock Gaussian modeling of mixtures of non-stationary signals in the
+  time-frequency domain (hr-nmf).
+\newblock In {\em Applications of Signal Processing to Audio and Acoustics
+  (WASPAA), 2011 IEEE Workshop on}, pages 253--256. IEEE, 2011.
+
+\bibitem{blauert1978group}
+J~Blauert and P~Laws.
+\newblock Group delay distortions in electroacoustical systems.
+\newblock {\em The Journal of the Acoustical Society of America},
+  63(5):1478--1483, 1978.
+
+\bibitem{bregman1994auditory}
+Albert~S Bregman.
+\newblock {\em Auditory scene analysis: The perceptual organization of sound}.
+\newblock MIT press, 1994.
+
+\bibitem{cherry1953some}
+E~Colin Cherry.
+\newblock Some experiments on the recognition of speech, with one and with two
+  ears.
+\newblock {\em The Journal of the acoustical society of America},
+  25(5):975--979, 1953.
+
+\bibitem{fries2005digital}
+Bruce Fries and Marty Fries.
+\newblock {\em Digital audio essentials}.
+\newblock " O'Reilly Media, Inc.", 2005.
+
+\bibitem{gelfand1998hearing}
+Stanley~A Gelfand and Harry Levitt.
+\newblock {\em Hearing: An introduction to psychological and physiological
+  acoustics}, volume~4.
+\newblock Marcel Dekker New York, fifth edition, 1998.
+
+\bibitem{hadamard1902problemes}
+Jacques Hadamard.
+\newblock Sur les probl{\`e}mes aux d{\'e}riv{\'e}es partielles et leur
+  signification physique.
+\newblock {\em Princeton university bulletin}, 13(49-52):28, 1902.
+
+\bibitem{hartley1942more}
+Ralph~VL Hartley.
+\newblock A more symmetrical fourier analysis applied to transmission problems.
+\newblock {\em Proceedings of the IRE}, 30(3):144--150, 1942.
+
+\bibitem{killion2004development}
+Mead~C Killion, Patricia~A Niquette, Gail~I Gudmundsen, Lawrence~J Revit, and
+  Shilpi Banerjee.
+\newblock Development of a quick speech-in-noise test for measuring
+  signal-to-noise ratio loss in normal-hearing and hearing-impaired listeners.
+\newblock {\em The Journal of the Acoustical Society of America},
+  116(4):2395--2405, 2004.
+
+\bibitem{lee2001algorithms}
+Daniel~D Lee and H~Sebastian Seung.
+\newblock Algorithms for non-negative matrix factorization.
+\newblock In {\em Advances in neural information processing systems}, pages
+  556--562, 2001.
+
+\bibitem{lloyd1982least}
+Stuart Lloyd.
+\newblock Least squares quantization in pcm.
+\newblock {\em IEEE transactions on information theory}, 28(2):129--137, 1982.
+
+\bibitem{mackay2003information}
+David~JC MacKay.
+\newblock {\em Information theory, inference and learning algorithms}.
+\newblock Cambridge university press, fourth (version 7.2) edition, 2003.
+
+\bibitem{miller1955analysis}
+George~A Miller and Patricia~E Nicely.
+\newblock An analysis of perceptual confusions among some english consonants.
+\newblock {\em The Journal of the Acoustical Society of America},
+  27(2):338--352, 1955.
+
+\bibitem{noll1967cepstrum}
+A~Michael Noll.
+\newblock Cepstrum pitch determination.
+\newblock {\em The journal of the acoustical society of America},
+  41(2):293--309, 1967.
+
+\bibitem{schmidt2006single}
+Mikkel~N Schmidt and Rasmus~Kongsgaard Olsson.
+\newblock Single-channel speech separation using sparse non-negative matrix
+  factorization.
+\newblock In {\em Spoken Language Proceesing, ISCA International Conference on
+  (INTERSPEECH)}, 2006.
+
+\bibitem{shailer1983gap}
+Michael~J Shailer and Brian~CJ Moore.
+\newblock Gap detection as a function of frequency, bandwidth, and level.
+\newblock {\em The Journal of the Acoustical Society of America},
+  74(2):467--473, 1983.
+
+\bibitem{sorensen1987real}
+H~V Sorensen, D~Jones, Michael Heideman, and C~Burrus.
+\newblock Real-valued fast fourier transform algorithms.
+\newblock {\em IEEE Transactions on Acoustics, Speech, and Signal Processing},
+  35(6):849--863, 1987.
+
+\bibitem{vincent2006performance}
+Emmanuel Vincent, R{\'e}mi Gribonval, and C{\'e}dric F{\'e}votte.
+\newblock Performance measurement in blind audio source separation.
+\newblock {\em IEEE transactions on audio, speech, and language processing},
+  14(4):1462--1469, 2006.
+
+\bibitem{virtanen2003algorithm}
+Tuomas Virtanen.
+\newblock Algorithm for the separation of harmonic sounds with time-frequency
+  smoothness constraint.
+\newblock In {\em Proc. Int. Conf. on Digital Audio Effects (DAFx)}, pages
+  35--40, 2003.
+
+\bibitem{virtanen2003sound}
+Tuomas Virtanen.
+\newblock Sound source separation using sparse coding with temporal continuity
+  objective.
+\newblock In {\em ICMC}, pages 231--234, 2003.
+
+\bibitem{virtanen2000separation}
+Tuomas Virtanen and Anssi Klapuri.
+\newblock Separation of harmonic sound sources using sinusoidal modeling.
+\newblock In {\em Acoustics, Speech, and Signal Processing, 2000. ICASSP'00.
+  Proceedings. 2000 IEEE International Conference on}, volume~2, pages
+  II765--II768. IEEE, 2000.
+
+\bibitem{xu2003document}
+Wei Xu, Xin Liu, and Yihong Gong.
+\newblock Document clustering based on non-negative matrix factorization.
+\newblock In {\em Proceedings of the 26th annual international ACM SIGIR
+  conference on Research and development in informaion retrieval}, pages
+  267--273. ACM, 2003.
 
 \end{thebibliography}

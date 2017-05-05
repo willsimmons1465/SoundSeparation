@@ -1,16 +1,9 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: Dissertation.aux
-The style file: ieeetr.bst
+The style file: plain.bst
 Database file #1: DissertationBib.bib
-Warning--entry type for "juce" isn't style-file defined
---line 19 of file DissertationBib.bib
-Warning--entry type for "melodyne" isn't style-file defined
---line 48 of file DissertationBib.bib
-Warning--entry type for "spatralayers" isn't style-file defined
---line 56 of file DissertationBib.bib
-Warning--entry type for "philharmonia" isn't style-file defined
---line 71 of file DissertationBib.bib
-Warning--entry type for "audacity" isn't style-file defined
---line 79 of file DissertationBib.bib
-Warning--entry type for "fftw" isn't style-file defined
---line 87 of file DissertationBib.bib
-(There were 6 warnings)
+Warning--to sort, need author or key in juce
+Warning--to sort, need author or key in melodyne
+Warning--to sort, need author or key in spatralayers
+Warning--to sort, need author or key in philharmonia
+Warning--to sort, need author or key in fftw
+(There were 5 warnings)

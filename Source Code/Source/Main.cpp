@@ -158,7 +158,7 @@ void testSoftCluster(void);
 /*int main(void)
 {
 	vector<WavFileManager*>* testSet = BASSEval::validationSetSounds();
-	BASSEval::pairWiseStereoTest(testSet, Separation::SINUSOIDS, Separation::HARD, true, true);
+	BASSEval::pairWiseStereoTest(testSet, Separation::MATRIXFACTORS, Separation::MATRIX, true, true);
 	for(int i=0; i<testSet->size(); i++)
 	{
 		delete testSet->data()[i];
@@ -173,11 +173,29 @@ void testSoftCluster(void);
 
 int main(void)
 {
+	BASSEval::standardTest(Separation::SINUSOIDS, Separation::SOFT, false);
+	//BASSEval::incrementKTest(Separation::MATRIXFACTORS);
+	//BASSEval::incrementStereoTest(Separation::SINUSOIDS);
+	//BASSEval::incrementOffsetTest(Separation::SINUSOIDS);
+	//BASSEval::incrementFrequencyTest(Separation::MATRIXFACTORS);
+	//BASSEval::incrementPitchTest(Separation::MATRIXFACTORS);
+	//BASSEval::noiseTest(Separation::SINUSOIDS, 2.05);
+
+	string wait;
+	cin >> wait;
+
+	return 0;
+}
+
+/*int main(void)
+{
 	vector<WavFileManager*>* testSet = BASSEval::validationSetSounds();
-	for(double val=60; val<=200; val += 20)
+	for(double val=50; val<=150; val += 10)
 	{
-		SinusoidalTrajectory::distanceWeightAmp = val;
-		cout << "WA = " << val << "; ";
+		SinusoidalTrajectory::distanceMissPenaltyStereo = val;
+		//Separation::softClusterStiffness = val;
+		//Separation::matrixWeightMix = val;
+		cout << "MPS = " << val << "; ";
 		BASSEval::pairWiseStereoTest(testSet, Separation::SINUSOIDS, Separation::SOFT, false, false);
 	}
 	for(int i=0; i<testSet->size(); i++)
@@ -190,7 +208,59 @@ int main(void)
 	cin >> wait;
 
     return 0;
-}
+}*/
+
+/*int main(void)
+{
+	vector<WavFileManager*>* testSet = BASSEval::testSetSounds();
+	int i=4;
+	int j=12;
+	double stereoSep = 0.13;
+
+	srand(19873496);
+
+	Eigen::VectorXd li;
+	Eigen::VectorXd ri;
+	Eigen::VectorXd lj;
+	Eigen::VectorXd rj;
+	testSet->data()[i-1]->readSoundSample(&li, &ri);
+	testSet->data()[j-1]->readSoundSample(&lj, &rj);
+
+	double iStereo = 0.5 * (1 + stereoSep);
+	double jStereo = 0.5 * (1 - stereoSep);
+
+	long sampleCount = max(li.size(), lj.size());
+	Eigen::VectorXd zeroVector = Eigen::VectorXd::Zero(sampleCount);
+
+	Eigen::VectorXd iSampleVector = (li + ri)/sqrt(2.);
+	Eigen::VectorXd jSampleVector = (lj + rj)/sqrt(2.);
+	iSampleVector.conservativeResizeLike(zeroVector);
+	jSampleVector.conservativeResizeLike(zeroVector);
+	Eigen::VectorXd lSampleVector = sqrt(1-iStereo) * iSampleVector + sqrt(1-jStereo) * jSampleVector;
+	Eigen::VectorXd rSampleVector = sqrt(iStereo) * iSampleVector + sqrt(jStereo) * jSampleVector;
+
+	vector<vector<Eigen::VectorXd>>* separated = Separation::separate(&lSampleVector, &rSampleVector, 2, Separation::SINUSOIDS, Separation::SOFT, false, true);
+
+	WavFileManager fileManager("C:\\Users\\Will\\OneDrive\\Uni\\Individual Project\\SoundSeparation\\OutputSpectrograms\\testOutput0.1.wav");
+
+	for(int o=0; o<2; o++)
+	{
+		fileManager.writeDerivedOutput(i*1000 + j*10 + o, &((*separated)[o][0]), &((*separated)[o][1]));
+	}
+
+
+	for(int i=0; i<testSet->size(); i++)
+	{
+		delete testSet->data()[i];
+	}
+	delete testSet;
+	delete separated;
+
+	string wait;
+	cin >> wait;
+
+	return 0;
+}*/
 
 /*int main(void)
 {

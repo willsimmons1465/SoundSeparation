@@ -2,23 +2,44 @@
 
 const double SinusoidalTrajectory::trajectoryDeltaFmax = 0.02;
 //double SinusoidalTrajectory::distanceWeightFreq = 1.;
-double SinusoidalTrajectory::distanceWeightFreq = 0.;
+//double SinusoidalTrajectory::distanceWeightFreq = 0.;
 //double SinusoidalTrajectory::distanceWeightAmp = 2.5;
 //double SinusoidalTrajectory::distanceWeightAmp = 1;
-double SinusoidalTrajectory::distanceWeightAmp = 0.;
+//double SinusoidalTrajectory::distanceWeightAmp = 0.;
 //*double SinusoidalTrajectory::distanceWeightAmp = 0.7;
 //double SinusoidalTrajectory::distanceWeightHarm = 1000.;
-double SinusoidalTrajectory::distanceWeightHarm = 980.;
-double SinusoidalTrajectory::distanceWeightStereo = 1.;
+//double SinusoidalTrajectory::distanceWeightHarm = 980.;
+//double SinusoidalTrajectory::distanceWeightStereo = 1.;
 //*double SinusoidalTrajectory::distanceWeightStereo = 42.;
 //double SinusoidalTrajectory::distanceMissPenalty = 1.;
-double SinusoidalTrajectory::distanceWeightOnset = .02;
+//double SinusoidalTrajectory::distanceWeightOnset = .02;
 //*double SinusoidalTrajectory::distanceWeightOnset = 1.;
-double SinusoidalTrajectory::distanceMissPenalty = 36.;
+//double SinusoidalTrajectory::distanceMissPenalty = 36.;
 //*double SinusoidalTrajectory::distanceMissPenalty = 43.;
-double SinusoidalTrajectory::distanceMissPenaltyFreq = 36.;
-double SinusoidalTrajectory::distanceMissPenaltyAmp = 36.;
-double SinusoidalTrajectory::distanceMissPenaltyStereo = 36.;
+//double SinusoidalTrajectory::distanceMissPenaltyFreq = 36.;
+//double SinusoidalTrajectory::distanceMissPenaltyAmp = 36.;
+//double SinusoidalTrajectory::distanceMissPenaltyStereo = 36.;
+
+
+//double SinusoidalTrajectory::distanceWeightAmp = 118.;
+//double SinusoidalTrajectory::distanceWeightFreq = 0.;
+//double SinusoidalTrajectory::distanceWeightHarm = 2780.;
+//double SinusoidalTrajectory::distanceWeightStereo = 70.;
+//double SinusoidalTrajectory::distanceWeightOnset = 0.3;
+//double SinusoidalTrajectory::distanceMissPenalty = 90.;
+//double SinusoidalTrajectory::distanceMissPenaltyFreq = 35.;
+//double SinusoidalTrajectory::distanceMissPenaltyAmp = 34.;
+//double SinusoidalTrajectory::distanceMissPenaltyStereo = 90.;
+
+double SinusoidalTrajectory::distanceWeightFreq = 2.9e6;
+double SinusoidalTrajectory::distanceWeightAmp = 50.;
+double SinusoidalTrajectory::distanceWeightHarm = 2200.;
+double SinusoidalTrajectory::distanceWeightStereo = 440.;
+double SinusoidalTrajectory::distanceWeightOnset = 0.8;
+double SinusoidalTrajectory::distanceMissPenalty = 100.;
+double SinusoidalTrajectory::distanceMissPenaltyFreq = 15.;
+double SinusoidalTrajectory::distanceMissPenaltyAmp = 10.;
+double SinusoidalTrajectory::distanceMissPenaltyStereo = 90.;
 
 bool SinusoidalTrajectory::canAccept(SinusoidalTrajectoryPoint point)
 {

@@ -4,7 +4,8 @@
 
 #define PI 3.14159265358979323846
 
-const double Transform::nmfStepThreshold = 1e-7;
+//const double Transform::nmfStepThreshold = 1e-7;
+const double Transform::nmfStepThreshold = 1e-3;
 
 vector<double>* Transform::hamming(long size)
 {
@@ -498,6 +499,13 @@ vector<Eigen::MatrixXd>* Transform::nmf(Eigen::MatrixXd* x, long n)
 			mix.data[t][i] = x->data[t][randIndex];
 		}*/
 		mix.col(i) = x->col(randIndex);
+		if (mix.col(i).isZero())
+		{
+			for(long t=0; t<tCount; t++)
+			{
+				mix.col(i)(t) = ((double) rand()) / RAND_MAX;
+			}
+		}
 	}
 
 	//Identify scale of x
@@ -510,12 +518,14 @@ vector<Eigen::MatrixXd>* Transform::nmf(Eigen::MatrixXd* x, long n)
 		}
 	}*/
 	double xScale = x->sum();
+	Eigen::MatrixXd xScaled = (*x) / xScale;
 
 	//Iteratively improve estimates
 	double lastDistance = numeric_limits<double>::max();
 	while(true)
 	{
 		//Compute matrix multiplications for multiplicative updates
+		//cout << endl << mix << endl;
 		Eigen::MatrixXd mixSource = mix * source;
 		Eigen::MatrixXd mixModNumerator = (*x) * source.transpose();
 		Eigen::MatrixXd mixModDenominator = mixSource * source.transpose();
@@ -548,17 +558,18 @@ vector<Eigen::MatrixXd>* Transform::nmf(Eigen::MatrixXd* x, long n)
 
 		//Identify scales of current estimate of x
 		Eigen::MatrixXd currentEstimate = mix * source;
-		double eScale = 0.;
+		/*double eScale = 0.;
 		for(long t=0; t<tCount; t++)
 		{
 			for(long f=0; f<fCount; f++)
 			{
 				eScale += currentEstimate(t, f);
 			}
-		}
+		}*/
+		double eScale = currentEstimate.sum();
 
 		//Calculate Euclidean squared distance between x and estimate, considering scales
-		double distance = 0.;
+		/*double distance = 0.;
 		for(long t=0; t<tCount; t++)
 		{
 			for(long f=0; f<fCount; f++)
@@ -569,7 +580,10 @@ vector<Eigen::MatrixXd>* Transform::nmf(Eigen::MatrixXd* x, long n)
 			{
 				mix(t, i) *= xScale / eScale;
 			}
-		}
+		}*/
+		currentEstimate /= eScale;
+		mix *= xScale / eScale;
+		double distance = (xScaled - currentEstimate).squaredNorm();
 
 		//Stop iterating if making little progress
 		if(lastDistance - distance < nmfStepThreshold)

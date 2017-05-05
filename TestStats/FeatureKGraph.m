@@ -13,19 +13,19 @@ plot(k, sinSDR)
 hold on
 plot(k, matSDR)
 ylim([-30, 10])
-ylabel('SDR')
-legend('Sinusoids', 'Matrix Factors')
-title('Separation performance against number of sounds')
+ylabel('SDR/dB')
+legend('Sin', 'NMF')
+%title('Separation performance against number of sounds')
 
 subplot(3, 1, 2)
 plot(k, sinSIR)
 hold on
 plot(k, matSIR)
-ylabel('SIR')
+ylabel('SIR/dB')
 
 subplot(3, 1, 3)
 plot(k, sinSAR)
 hold on
 plot(k, matSAR)
 xlabel('Number of sounds')
-ylabel('SAR')
+ylabel('SAR/dB')

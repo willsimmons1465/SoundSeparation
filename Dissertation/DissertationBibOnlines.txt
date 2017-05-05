@@ -1,0 +1,47 @@
+@online{juce,
+  title={JUCE},
+  author={ROLI Ltd},
+  year={2017},
+  url={http://www.juce.com},
+  urldate={2017-03-19}
+}
+
+@online{melodyne,
+  title={Celemony},
+  author={Celemony Software GmbH},
+  year={2017},
+  url={http://www.celemony.com/en/start},
+  urldate={2017-03-19}
+}
+
+@online{spatralayers,
+  title={SpectraLayers Pro},
+  author={MAGIX Software GmbH},
+  year={2017},
+  url={http://www.magix-audio.com/gb/spectralayers-pro/},
+  urldate={2017-03-19}
+}
+
+@online{philharmonia,
+  title={Philharmonia Orchestra Sound Samples},
+  author={Philharmonia Ltd},
+  year={2017},
+  url={http://www.philharmonia.co.uk/explore/sound_samples},
+  urldate={2017-03-19}
+}
+
+@online{audacity,
+  title={Audacity},
+  author={Audacity Team},
+  year={2017},
+  url={http://www.audacityteam.org/},
+  urldate={2017-03-19}
+}
+
+@online{fftw,
+  title={FFTW},
+  author={Matteo Frigo},
+  year={2017},
+  url={http://www.fftw.org/},
+  urldate={2017-03-19}
+}

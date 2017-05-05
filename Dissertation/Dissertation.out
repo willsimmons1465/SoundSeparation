@@ -1,0 +1,49 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Motivation}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Overview of Sound Separation}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Current Implementations}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.4}{Overview of the Dissertation}{chapter.1}% 5
+\BOOKMARK [0][-]{chapter.2}{Preparation}{}% 6
+\BOOKMARK [1][-]{section.2.1}{Choice of Overall Process}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.2}{Choice of Sound Elements}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.3}{Choice of Implementation}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.4}{Software Engineering Approach}{chapter.2}% 10
+\BOOKMARK [2][-]{subsection.2.4.1}{Requirements}{section.2.4}% 11
+\BOOKMARK [2][-]{subsection.2.4.2}{Software Development Process/Methodology}{section.2.4}% 12
+\BOOKMARK [2][-]{subsection.2.4.3}{Version Control and Back-up}{section.2.4}% 13
+\BOOKMARK [2][-]{subsection.2.4.4}{Testing}{section.2.4}% 14
+\BOOKMARK [0][-]{chapter.3}{Implementation}{}% 15
+\BOOKMARK [1][-]{section.3.1}{Signal Transforms}{chapter.3}% 16
+\BOOKMARK [1][-]{section.3.2}{Sinusoidal Trajectories}{chapter.3}% 17
+\BOOKMARK [2][-]{subsection.3.2.1}{Extraction}{section.3.2}% 18
+\BOOKMARK [2][-]{subsection.3.2.2}{Features}{section.3.2}% 19
+\BOOKMARK [2][-]{subsection.3.2.3}{Reconstruction}{section.3.2}% 20
+\BOOKMARK [1][-]{section.3.3}{Spectrogram Factor Components}{chapter.3}% 21
+\BOOKMARK [2][-]{subsection.3.3.1}{Matrix Factorisation}{section.3.3}% 22
+\BOOKMARK [2][-]{subsection.3.3.2}{Features}{section.3.3}% 23
+\BOOKMARK [2][-]{subsection.3.3.3}{Reconstruction}{section.3.3}% 24
+\BOOKMARK [1][-]{section.3.4}{Clustering Algorithms}{chapter.3}% 25
+\BOOKMARK [2][-]{subsection.3.4.1}{Hard Clustering}{section.3.4}% 26
+\BOOKMARK [2][-]{subsection.3.4.2}{Soft Clustering}{section.3.4}% 27
+\BOOKMARK [2][-]{subsection.3.4.3}{Clustering by NMF}{section.3.4}% 28
+\BOOKMARK [2][-]{subsection.3.4.4}{A Na\357ve Solution}{section.3.4}% 29
+\BOOKMARK [2][-]{subsection.3.4.5}{Discussion}{section.3.4}% 30
+\BOOKMARK [1][-]{section.3.5}{Other Stages}{chapter.3}% 31
+\BOOKMARK [2][-]{subsection.3.5.1}{File I/O}{section.3.5}% 32
+\BOOKMARK [2][-]{subsection.3.5.2}{Enforcing Reversibility}{section.3.5}% 33
+\BOOKMARK [1][-]{section.3.6}{Parameter Choices}{chapter.3}% 34
+\BOOKMARK [1][-]{section.3.7}{Software Engineering Practice}{chapter.3}% 35
+\BOOKMARK [0][-]{chapter.4}{Evaluation}{}% 36
+\BOOKMARK [1][-]{section.4.1}{Method Comparisons}{chapter.4}% 37
+\BOOKMARK [2][-]{subsection.4.1.1}{Sound Element Choice}{section.4.1}% 38
+\BOOKMARK [2][-]{subsection.4.1.2}{Clustering Method}{section.4.1}% 39
+\BOOKMARK [2][-]{subsection.4.1.3}{Reversibility}{section.4.1}% 40
+\BOOKMARK [1][-]{section.4.2}{Case Analysis}{chapter.4}% 41
+\BOOKMARK [2][-]{subsection.4.2.1}{Performance Against Noise}{section.4.2}% 42
+\BOOKMARK [2][-]{subsection.4.2.2}{Performance Against Stereo Separation}{section.4.2}% 43
+\BOOKMARK [2][-]{subsection.4.2.3}{Performance Against Frequency Offset}{section.4.2}% 44
+\BOOKMARK [2][-]{subsection.4.2.4}{Performance Against Time Offset}{section.4.2}% 45
+\BOOKMARK [0][-]{chapter.5}{Conclusion}{}% 46
+\BOOKMARK [0][-]{chapter.5}{Bibliography}{}% 47
+\BOOKMARK [0][-]{appendix.A}{Typical Outputs}{}% 48
+\BOOKMARK [0][-]{appendix.B}{Project Proposal}{}% 49

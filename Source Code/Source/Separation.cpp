@@ -7,13 +7,20 @@
 #include <iostream>
 
 //const double Separation::noiseThreshold = 1e20;
-const double Separation::noiseThreshold = 2.5e21;
+//const double Separation::noiseThreshold = 2.5e21;
 //const double Separation::noiseThreshold = 1e136;
 //const double Separation::noiseThreshold = 1e110;
-const double Separation::softClusterStiffness = 0.00022;
+//double Separation::softClusterStiffness = 0.00022;
 const double naiveClusterThreshold = 3.2;
-double Separation::matrixWeightSource = 1.;
-double Separation::matrixWeightMix = 1.;
+//double Separation::matrixWeightSource = 1.;
+//double Separation::matrixWeightMix = 1.;
+
+//const double Separation::noiseThreshold = 2.5e21;
+const double Separation::noiseThreshold = 0.05e21;
+double Separation::softClusterStiffnessSin = 0.0001;
+double Separation::softClusterStiffnessMat = 15;
+double Separation::matrixWeightMix = 0.002;
+double Separation::matrixWeightSource = 0.5;
 
 inline double quadraticFitTurningPoint(double y_1, double y0, double y1)
 {
@@ -305,6 +312,9 @@ vector<vector<Eigen::VectorXd>>* Separation::separate(Eigen::VectorXd* lSampleVe
 		{
 			cout << sins->size() << " Sinusoids extracted" << endl;
 		}
+
+		cout << sins->size() << endl;
+
 		break;
 	case MATRIXFACTORS:
 		vector<Eigen::MatrixXd>* nmfResults = Transform::nmf(&absSpec, nmfFactors);
@@ -333,7 +343,11 @@ vector<vector<Eigen::VectorXd>>* Separation::separate(Eigen::VectorXd* lSampleVe
 	case MATRIXFACTORS:
 		//featureVectors = distanceMatrixFromMatrixFactors(&mix, &source);
 		featureVectors = new Eigen::MatrixXd(nmfFactors, tCount + fCount);
-		(*featureVectors) << (source * matrixWeightSource), (mix.transpose() * matrixWeightMix);
+		for(int i=0; i<nmfFactors; i++)
+		{
+			featureVectors->row(i) << (source.row(i).normalized() * matrixWeightSource), (mix.transpose().row(i).normalized() * matrixWeightMix);
+		}
+		//(*featureVectors) << (source * matrixWeightSource), (mix.transpose() * matrixWeightMix);
 
 		if (verbose)
 		{
@@ -360,7 +374,14 @@ vector<vector<Eigen::VectorXd>>* Separation::separate(Eigen::VectorXd* lSampleVe
 
 		break;
 	case SOFT:
-		clusterWeights = Cluster::softKCluster(featureVectors, numOfSources, softClusterStiffness);
+		switch (fOp)
+		{
+		case SINUSOIDS:
+			clusterWeights = Cluster::softKCluster(featureVectors, numOfSources, softClusterStiffnessSin);
+			break;
+		case MATRIXFACTORS:
+			clusterWeights = Cluster::softKCluster(featureVectors, numOfSources, softClusterStiffnessMat);
+		}
 
 		break;
 	case MATRIX:
@@ -370,6 +391,10 @@ vector<vector<Eigen::VectorXd>>* Separation::separate(Eigen::VectorXd* lSampleVe
 		(*clusterWeights) = (*nmfResults)[0];
 		for(long i=0; i<featureCount; i++)
 		{
+			if(clusterWeights->row(i).isZero())
+			{
+				clusterWeights->row(i).setOnes();
+			}
 			clusterWeights->row(i).normalize();
 		}
 		delete nmfResults;
@@ -393,6 +418,7 @@ vector<vector<Eigen::VectorXd>>* Separation::separate(Eigen::VectorXd* lSampleVe
 	switch (fOp)
 	{
 	case SINUSOIDS:
+		//cout << (*clusterWeights) << endl;
 		for(int s=0; s<numOfSources; s++)
 		{
 			//Initialise spectra as zero-matrices
@@ -445,7 +471,10 @@ vector<vector<Eigen::VectorXd>>* Separation::separate(Eigen::VectorXd* lSampleVe
 
 	}
 
-	delete sins;
+	if (fOp == SINUSOIDS)
+	{
+		delete sins;
+	}
 
 	if(verbose)
 	{

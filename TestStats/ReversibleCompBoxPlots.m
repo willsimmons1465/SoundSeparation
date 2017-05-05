@@ -1,4 +1,4 @@
-categories = {'Without (S)', 'With (S)', 'Without (MF)', 'With (MF)'};
+categories = {'Without (Sin)', 'With (Sin)', 'Without (NMF)', 'With (NMF)'};
 SDRs = [-34.778, -11.3366, -8.94168, -5.90039;
     -9.08361, -0.0256131, -1.97583, 0.338262;
     -2.09438, 1.81522, 0.30395, 2.61904;
@@ -18,15 +18,15 @@ SARs = [-10.3683, 0.540008, 0.104375, 2.04667;
 figure
 subplot(3, 1, 1)
 boxplot(SDRs, categories)
-ylabel('SDR')
+ylabel('SDR/dB')
 xticks([]);
-title('Separation performance with and without the reversibility property')
+%title('Separation performance with and without the reversibility property')
 
 subplot(3, 1, 2)
 boxplot(SIRs, categories)
-ylabel('SIR')
+ylabel('SIR/dB')
 xticks([]);
 
 subplot(3, 1, 3)
 boxplot(SARs, categories, 'Whisker', 2)
-ylabel('SAR')
+ylabel('SAR/dB')

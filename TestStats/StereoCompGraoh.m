@@ -1,4 +1,5 @@
 stereo = [0, 0.2, 0.4, 0.6, 0.8, 1];
+stereo = 360*asin(sqrt((1+stereo)/2))/pi - 90;
 %sinSDR = [-19.3531, -19.3625, -19.4449, -3.45547, -2.68074, -3.29317];
 %sinSIR = [5.21472, 5.28647, 5.49725, 27.5853, 24.0712, 25.7475];
 %sinSAR = [-9.36108, -9.35276, -9.3573, -3.16943, -2.34064, -3.00836];
@@ -15,20 +16,22 @@ subplot(3, 1, 1)
 %plot(stereo, sinSDR)
 %errorbar(stereo, SDR, SDREr)
 plot(stereo, SDR)
-ylabel('SDR')
-title('Separation performance against stereo separation of individual sounds')
+ylabel('SDR/dB')
+%title('Separation performance against stereo separation of individual sounds')
 
 subplot(3, 1, 2)
 %plot(stereo, sinSIR)
 %errorbar(stereo, SIR, SIREr)
 plot(stereo, SIR)
+%ylim([30, 45])
+%xlim([0, 1])
 ylim([30, 45])
-xlim([0, 1])
-ylabel('SIR')
+xlim([0 90])
+ylabel('SIR/dB')
 
 subplot(3, 1, 3)
 %plot(stereo, sinSAR)
 %errorbar(stereo, SAR, SAREr)
 plot(stereo, SAR)
-ylabel('SAR')
-xlabel('Stereo separation')
+ylabel('SAR/dB')
+xlabel('Stereo position from centre/degrees')

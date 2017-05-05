@@ -11,16 +11,16 @@ subplot(3, 1, 1)
 plot(pitch, sinSDR)
 %hold on
 %plot(pitch, matSDR)
-ylabel('SDR')
+ylabel('SDR/dB')
 xticks([])
 %legend('Sinusoids', 'Matrix Factors')
-title('Separation performance against relative pitch')
+%title('Separation performance against relative pitch')
 
 subplot(3, 1, 2)
 plot(pitch, sinSIR)
 %hold on
 %plot(pitch, matSIR)
-ylabel('SIR')
+ylabel('SIR/dB')
 xticks([])
 ylim([-10 60])
 
@@ -28,5 +28,5 @@ subplot(3, 1, 3)
 plot(pitch, sinSAR)
 %hold on
 %plot(pitch, matSAR)
-ylabel('SAR')
+ylabel('SAR/dB')
 xlabel('Pitch difference between sounds/semitones')
